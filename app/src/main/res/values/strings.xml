@@ -1,6 +1,9 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Streaming App</string>
     <string name="usuario">Usuario</string>
     <string name="contrasena">Contraseña</string>
-    <string name="enviar"/>
+    <string name="enviar" />
+
+    <!--STRINGS activity_reproductor-->
+    <string name="btnReproducir">REPRODUCIR</string>
 </resources>
