@@ -3,23 +3,16 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
 
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
-    <style name="AppTextField" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="boxBackgroundColor">@android:color/white</item>
-    </style>
-
-    <style name="Theme.App" parent="Theme.MaterialComponents">
-        ...
-        <item name="textInputStyle">@style/Widget.App.TextInputLayout</item>
+        <item name="colorPrimary">@color/verde</item>
+        <item name="colorPrimaryDark">@color/morado</item>
+        <item name="colorAccent">@color/letras</item>
+        <item name="android:colorBackground">@color/fondo</item>
+        <item name="colorSurface">@color/fondo2</item>
+        <item name="colorOnSurface">@color/letras</item>
+        <item name="android:itemTextAppearance">@style/myCustomMenuTextAppearance</item>
     </style>
 
-    <style name="Widget.App.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
-        <item name="android:textColorHint">@color/design_default_color_on_secondary</item>
-        <item name="boxBackgroundColor">@color/mtrl_on_primary_emphasis_medium</item>
-        <item name="boxStrokeColor">@color/colorAccent</item>
-        <item name="hintTextColor">@color/colorAccent</item>
+    <style name="myCustomMenuTextAppearance" parent="@android:style/TextAppearance.Widget.IconMenu.Item">
+        <item name="android:textColor">@color/letras</item>
     </style>
 </resources>
