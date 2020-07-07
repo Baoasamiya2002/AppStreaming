@@ -1,11 +1,16 @@
 <resources>
-    <string name="app_name">Streaming App</string>
+    <string name="app_name">My Application</string>
     <string name="usuario">Usuario</string>
+    <string name="nombreUsuario">Nombre de usuario</string>
     <string name="contrasena">Contraseña</string>
-    <string name="enviar" />
-    <!--STRINGS activity_reproductor-->
-    <string name="btnReproducir">REPRODUCIR</string>
+    <string name="confirmarContrasena">Confirmar contraseña</string>
     <string name="entrar">Entrar</string>
     <string name="suscribirse">Suscribirse</string>
+    <string name="suscribete">Suscríbete</string>
     <string name="descripcionLogo">Logo de aplicación</string>
+    <string name="mensajeSuscripcion"><b>¡Hola!</b>\n Regístrate para empezar a <b>disfrutar</b></string>
+    <string name="opcionAnadir">Añadir a lista de reproducción</string>
+    <string name="opcionEliminar">Eliminar de lista de reproducción</string>
+    <string name="nombreLista">Nombre de la lista</string>
+    <string name="btnReproducir">REPRODUCIR</string>
 </resources>
