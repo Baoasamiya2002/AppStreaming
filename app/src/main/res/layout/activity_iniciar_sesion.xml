@@ -67,6 +67,7 @@
             android:layout_margin="20dp"
             style="?attr/materialButtonOutlinedStyle"
             tools:ignore="PrivateResource"
-            app:strokeColor="@color/verde"/>
+            app:strokeColor="@color/verde"
+            android:onClick="clickbtnSuscribirse"/>
 
 </LinearLayout>

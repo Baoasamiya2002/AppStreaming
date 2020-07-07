@@ -73,7 +73,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/btnSuscribete"
             android:textAllCaps="false"
-            android:layout_margin="20dp"
-            android:onClick="clickBtnOpcion"/>
+            android:layout_margin="20dp"/>
 
 </LinearLayout>

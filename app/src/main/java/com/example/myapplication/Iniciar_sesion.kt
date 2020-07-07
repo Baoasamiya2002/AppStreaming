@@ -1,7 +1,11 @@
 package com.example.myapplication
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+
+const val EXTRA_MESSAGE = "com.example.myapplication.MESSAGE"
 
 class Iniciar_sesion : AppCompatActivity() {
 
@@ -12,4 +16,10 @@ class Iniciar_sesion : AppCompatActivity() {
         supportActionBar?.hide()
     }
 
+    fun clickbtnSuscribirse(view: View?) {
+        val intent = Intent(this, Realizar_suscripcion::class.java).apply {
+            putExtra(EXTRA_MESSAGE, "variableAPasar")
+        }
+        startActivity(intent)
+    }
 }

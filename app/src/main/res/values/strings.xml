@@ -8,7 +8,8 @@
     <string name="suscribirse">Suscribirse</string>
     <string name="suscribete">Suscríbete</string>
     <string name="descripcionLogo">Logo de aplicación</string>
-    <string name="mensajeSuscripcion"><b>¡Hola!</b>\n Registrate para empezar a <b>disfrutar</b></string>
-    <string name="opcionAnadir">Añadir a lista de reproduccion</string>
-    <string name="opcionEliminar">Eliminar de lista de reproduccion</string>
+    <string name="mensajeSuscripcion"><b>¡Hola!</b>\n Regístrate para empezar a <b>disfrutar</b></string>
+    <string name="opcionAnadir">Añadir a lista de reproducción</string>
+    <string name="opcionEliminar">Eliminar de lista de reproducción</string>
+    <string name="nombreLista">Nombre de la lista</string>
 </resources>
