@@ -3,8 +3,11 @@
     <color name="colorPrimary">#949494</color>
     <color name="colorPrimaryDark">#364659</color>
     <color name="colorAccent">#585858</color>
-    <color name="background">#F2F2F2</color>
-    <color name="background2">#534B4E</color>
 
+    <color name="fondo">#333240</color>
+    <color name="letras">#E9EAED</color>
+    <color name="fondo2">#545360</color>
+    <color name="verde">#18BA95</color>
+    <color name="morado">#6A69D1</color>
 
 </resources>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/fondo"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     android:padding="30dp"
@@ -12,8 +12,8 @@
 
     <ImageView
         android:id="@+id/imgListaRep"
-        android:layout_width="245dp"
-        android:layout_height="240dp"
+        android:layout_width="154dp"
+        android:layout_height="160dp"
         app:srcCompat="@android:mipmap/sym_def_app_icon" />
 
     <Space
@@ -29,7 +29,7 @@
         android:gravity="center_horizontal"
         android:text="Lista de Reproduccion n"
         android:textAlignment="center"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/letras"
         android:textSize="30dp" />
 
     <Button
@@ -37,13 +37,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/btnReproducir"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/letras"
         android:textSize="25dp"
-        app:backgroundTint="@color/colorPrimary" />
+        app:backgroundTint="@color/verde" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"/>
 
     <ListView
+        android:id="@+id/listCanciones"
         android:layout_width="match_parent"
-        android:layout_height="258dp"
-        android:background="#6A534B4E" />
+        android:layout_height="332dp"
+        android:background="@color/fondo2" />
 
 </LinearLayout>
