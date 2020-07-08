@@ -1,8 +1,8 @@
 package com.example.myapplication
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_lista_reproduccion.*
 
 class ListaReproduccionActivity : AppCompatActivity() {
@@ -13,7 +13,7 @@ class ListaReproduccionActivity : AppCompatActivity() {
         getCanciones()
 
         btnReproducir.setOnClickListener{
-            val intent:Intent = Intent (this, ReproductorActivity::class.java)
+            val intent = Intent (this, ReproductorActivity::class.java)
             startActivity(intent)
         }
     }
@@ -27,7 +27,7 @@ class ListaReproduccionActivity : AppCompatActivity() {
 
         val listaCanciones = listOf(cancion1, cancion2, cancion3, cancion4, cancion5)
 
-        val adapter = Cancion_Adapter(this, listaCanciones)
+        val adapter = Cancion_Adapter(this, listaCanciones, this.layoutInflater)
 
        listCanciones.adapter = adapter
     }
