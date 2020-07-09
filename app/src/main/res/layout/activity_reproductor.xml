@@ -11,9 +11,9 @@
     tools:context=".ReproductorActivity">
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/imgPortada"
         android:layout_width="match_parent"
-        android:layout_height="288dp"
+        android:layout_height="212dp"
         app:srcCompat="@android:mipmap/sym_def_app_icon" />
 
     <Space
@@ -45,11 +45,32 @@
         android:layout_marginBottom="20dp"/>
 
     <SeekBar
-        android:id="@+id/barCancion"
+        android:id="@+id/seekSong"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:progress="60"
         android:progressTint="@color/verde" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/txtCrTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/letras" />
+
+        <TextView
+            android:id="@+id/txtMaxTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:textColor="@color/letras" />
+    </LinearLayout>
 
     <Space
         android:layout_width="match_parent"
@@ -61,25 +82,31 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingTop="10dp">
 
         <ImageButton
-            android:id="@+id/btnCancionAnterior"
+            android:id="@+id/btnPrev"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@android:drawable/ic_media_previous" />
+            android:background="#00FFFFFF"
+            app:srcCompat="@drawable/backward64px" />
 
         <ImageButton
             android:id="@+id/btnPlayPause"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@android:drawable/ic_media_play" />
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="#00FFFFFF"
+            app:srcCompat="@drawable/play64px" />
 
         <ImageButton
-            android:id="@+id/btnCancionSiguiente"
+            android:id="@+id/btnNext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@android:drawable/ic_media_next" />
+            android:background="#00FFFFFF"
+            app:srcCompat="@drawable/forward64px" />
 
     </LinearLayout>
 
