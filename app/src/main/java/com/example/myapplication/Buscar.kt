@@ -10,13 +10,14 @@ import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
-import java.util.*
+import kotlinx.android.synthetic.main.fragment_buscar.*
 
 
+@Suppress("UNCHECKED_CAST")
 class Buscar : Fragment() {
 
-    var arrayListaBusqueda: Array<ArrayList<String>> = emptyArray()
-    var arrayAdapter: Array<ArrayAdapter<String>> = emptyArray()
+    var arrayListaBusqueda: Array<List<Any>> = emptyArray()
+    var arrayAdapter: Array<ArrayAdapter<Any>> = emptyArray()
     var arrayTextView : Array<TextView> = emptyArray()
     var arrayListView : Array<ListView> = emptyArray()
 
@@ -31,33 +32,46 @@ class Buscar : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         resultadosCanciones()
-        resultadosAlbumes()
+        /*resultadosAlbumes()
         resultadosArtistas()
-        resultadosListasReproduccion()
+        resultadosListasReproduccion()*/
 
         val searchView = view?.findViewById<SearchView>(R.id.searchView)
         searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                for (i in 0..3) {
-                    if (arrayListaBusqueda.get(i).contains(query)) {
-                        arrayAdapter.get(i).getFilter().filter(query)
+                val i = 0
+                //for (i in 0..0) {
+                    when(arrayListaBusqueda.get(i).first()){
+                        is Cancion -> {
+                            val arrayListaCancion = arrayListaBusqueda.get(i) as List<Cancion>
+                            val arrayAdapterCancion = arrayAdapter.get(i) as ArrayAdapter<Cancion>
+                            if (arrayListaCancion.stream().anyMatch{ o: Cancion -> o.nombreCancion.equals(query) }) {
+                                arrayAdapterCancion.getFilter().filter(query)
+                            }
+                        }
                     }
-                }
+                //}
                 return false
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
+                val i = 0
                 if(newText.trim() == ""){
-                    for (i in 0..3) {
+                    //for (i in 0..0) {
                         arrayTextView.get(i).isInvisible = true
                         arrayListView.get(i).setVisibility(View.INVISIBLE)
-                    }
+                    //}
                 } else {
-                    for (i in 0..3) {
+                    //for (i in 0..0) {
+                        when(arrayListaBusqueda.get(i).first()){
+                            is Cancion -> {
+                                val arrayAdapterCancion = arrayAdapter.get(i) as Cancion_Adapter
+                                arrayAdapterCancion.getFilter().filter(newText)
+                            }
+                        }
                         arrayTextView.get(i).isInvisible = false
                         arrayListView.get(i).setVisibility(View.VISIBLE)
-                        arrayAdapter.get(i).getFilter().filter(newText)
-                    }
+                    //}
                 }
                 return false
             }
@@ -66,8 +80,7 @@ class Buscar : Fragment() {
         searchView?.setIconified(false)
     }
 
-    private fun resultadosListasReproduccion() {
-        val tvListaReproduccion = view?.findViewById<TextView>(R.id.tvListaReproduccion)
+    /*private fun resultadosListasReproduccion() {
         tvListaReproduccion?.isInvisible = true
 
         val listView = view?.findViewById<ListView>(R.id.listaListaReproduccion)
@@ -85,7 +98,6 @@ class Buscar : Fragment() {
     }
 
     private fun resultadosArtistas() {
-        val tvArtista = view?.findViewById<TextView>(R.id.tvArtista)
         tvArtista?.isInvisible = true
 
         val listView = view?.findViewById<ListView>(R.id.listaArtista)
@@ -103,7 +115,6 @@ class Buscar : Fragment() {
     }
 
     private fun resultadosAlbumes() {
-        val tvAlbum = view?.findViewById<TextView>(R.id.tvAlbum)
         tvAlbum?.isInvisible = true
 
         val listView = view?.findViewById<ListView>(R.id.listaAlbum)
@@ -118,28 +129,44 @@ class Buscar : Fragment() {
         listView?.setAdapter(adapter)
 
         agregarAArray(tvAlbum, listView, list, adapter)
-    }
+    }*/
+
+    /*fun getCanciones(){
+        val cancion1 = Cancion("Cancion1", "Album1", R.drawable.live_streaming)
+        val cancion2 = Cancion("Cancion2", "Album1", R.drawable.live_streaming)
+        val cancion3 = Cancion("Cancion3", "Album2", R.drawable.live_streaming)
+        val cancion4 = Cancion("Cancion4", "Album2", R.drawable.live_streaming)
+        val cancion5 = Cancion("Cancion5", "Album3", R.drawable.live_streaming)
+
+        val listaCanciones = listOf(cancion1, cancion2, cancion3, cancion4, cancion5)
+
+        val adapter = Cancion_Adapter(this, listaCanciones, this.layoutInflater)
+
+        listCanciones.adapter = adapter
+    }*/
 
     private fun resultadosCanciones() {
-        val tvCancion = view?.findViewById<TextView>(R.id.tvCancion)
         tvCancion?.isInvisible = true
 
-        val listView = view?.findViewById<ListView>(R.id.listaCancion)
-        listView?.setVisibility(View.INVISIBLE)
+        listaCancion?.setVisibility(View.INVISIBLE)
 
-        val list = ArrayList<String>()
-        list.add("Gentleman")
-        list.add("All Fired Up")
-        list.add("Not Givin Up")
+        val cancion1 = Cancion("We Together", "Album1", R.drawable.live_streaming)
+        val cancion2 = Cancion("Gravity", "Album1", R.drawable.live_streaming)
+        val cancion3 = Cancion("MONEY TALK", "Album2", R.drawable.live_streaming)
+        val cancion4 = Cancion("You&I", "Album2", R.drawable.live_streaming)
+        val cancion5 = Cancion("Find Me?", "Album3", R.drawable.live_streaming)
 
-        val adapter = activity?.let { ArrayAdapter(it, android.R.layout.simple_list_item_1, list) }
-        listView?.setAdapter(adapter)
+        val list = listOf(cancion1, cancion2, cancion3, cancion4, cancion5)
 
-        agregarAArray(tvCancion, listView, list, adapter)
+        val adapter = activity?.let { Cancion_Adapter(it, list, activity!!.layoutInflater) }
+
+        listaCancion.adapter = adapter
+
+        agregarAArray(tvCancion, listaCancion, list, adapter as? (ArrayAdapter<Any>?))
     }
 
     private fun agregarAArray(textView: TextView?, listView: ListView?,
-                              list: ArrayList<String>, adapter: ArrayAdapter<String>?) {
+                              list: List<Any>, adapter: ArrayAdapter<Any>?) {
         val listaTv: MutableList<TextView> = arrayTextView.toMutableList()
         textView?.let { listaTv.add(it) }
         arrayTextView = listaTv.toTypedArray()
@@ -148,13 +175,14 @@ class Buscar : Fragment() {
         listView?.let { listaLv.add(it) }
         arrayListView = listaLv.toTypedArray()
 
-        val listaAl: MutableList<ArrayList<String>> = arrayListaBusqueda.toMutableList()
+        val listaAl: MutableList<List<Any>> = arrayListaBusqueda.toMutableList()
         list.let { listaAl.add(it) }
         arrayListaBusqueda = listaAl.toTypedArray()
 
-        val listaAa: MutableList<ArrayAdapter<String>> = arrayAdapter.toMutableList()
+        val listaAa: MutableList<ArrayAdapter<Any>> = arrayAdapter.toMutableList()
         adapter?.let { listaAa.add(it) }
         arrayAdapter = listaAa.toTypedArray()
     }
+
 
 }
