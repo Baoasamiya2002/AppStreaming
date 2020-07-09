@@ -17,6 +17,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Realizar_suscripcion"/>
+        <activity android:name=".Navegacion"/>
     </application>
 
 </manifest>

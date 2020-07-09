@@ -12,4 +12,12 @@
     <string name="opcionAnadir">Añadir a lista de reproducción</string>
     <string name="opcionEliminar">Eliminar de lista de reproducción</string>
     <string name="nombreLista">Nombre de la lista</string>
+    <string name="navInicio">Inicio</string>
+    <string name="nav_busqueda">Búsqueda</string>
+    <string name="nav_subirMusica">Subir música</string>
+    <string name="barraBusqueda">Artista, canción, álbum…</string>
+    <string name="resultadoAlbum"><b>Álbumes</b></string>
+    <string name="resultadoCancion"><b>Canciones</b></string>
+    <string name="resultadoListadereproduccion"><b>Listas de reproducción</b></string>
+    <string name="resultadoArtista"><b>Artistas</b></string>
 </resources>
