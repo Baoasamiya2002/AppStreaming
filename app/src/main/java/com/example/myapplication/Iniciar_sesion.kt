@@ -22,4 +22,9 @@ class Iniciar_sesion : AppCompatActivity() {
         }
         startActivity(intent)
     }
+
+    fun clickbtnEntrar(view: View?) {
+        val intent = Intent(this, Navegacion::class.java)
+        startActivity(intent)
+    }
 }
