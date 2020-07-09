@@ -56,7 +56,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/btnEntrar"
             android:textAllCaps="false"
-            android:backgroundTint="@color/morado"/>
+            android:backgroundTint="@color/morado"
+            android:onClick="clickbtnEntrar"/>
 
     <Button
             android:text="@string/suscribirse"
