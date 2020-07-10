@@ -12,6 +12,6 @@ class Realizar_suscripcion : AppCompatActivity() {
         title = "Suscripción"
         supportActionBar?.hide()
 
-        val message = intent.getStringExtra(EXTRA_MESSAGE)
+        //val message = intent.getStringExtra(EXTRA_MESSAGE)
     }
 }

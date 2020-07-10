@@ -2,10 +2,12 @@ package com.example.myapplication
 
 import android.content.Context
 import android.content.Context.LAYOUT_INFLATER_SERVICE
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.BaseAdapter
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_inicio.*
@@ -36,20 +38,20 @@ class Inicio : Fragment() {
         gvListaReproduccion.adapter = caListaReproduccion
         gvRadio.adapter = caRadioGenero
 
-        /*gvListaReproduccion.onItemClickListener =
-            OnItemClickListener { adapterView, view, i, l ->
+        gvListaReproduccion.onItemClickListener =
+            AdapterView.OnItemClickListener { adapterView, view, i, l ->
                 val idLista: Int = listaListaReproduccion.get(i).idLista
                 startActivity(
-                    Intent(activity, ListaReproduccionActivity::class.java).putExtra("idLista", idLista)
+                    Intent(activity, ListaReproduccionActivity::class.java)//.putExtra("idLista", idLista)
                 )
-            }*/
-        /*gvRadio.onItemClickListener =
-            OnItemClickListener { adapterView, view, i, l ->
+            }
+        gvRadio.onItemClickListener =
+            AdapterView.OnItemClickListener { adapterView, view, i, l ->
                 val idLista: Int = listaRadioGenero.get(i).idLista
                 startActivity(
-                    Intent(activity, ListaReproduccionActivity::class.java).putExtra("idLista", idLista)
+                    Intent(activity, ListaReproduccionActivity::class.java)//.putExtra("idLista", idLista)
                 )
-            }*/
+            }
     }
 
     private fun getRadioGenero() {
