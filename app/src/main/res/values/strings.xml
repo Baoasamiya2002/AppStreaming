@@ -20,4 +20,7 @@
     <string name="resultadoCancion"><b>Canciones</b></string>
     <string name="resultadoListadereproduccion"><b>Listas de reproducción</b></string>
     <string name="resultadoArtista"><b>Artistas</b></string>
+    <string name="inicioListadereproduccion">Tus listas de reproducción</string>
+    <string name="inicioRadio">Radio por género</string>
+    <string name="bienvenida"><b>Bienvenido</b></string>
 </resources>
