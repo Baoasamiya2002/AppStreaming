@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -26,7 +27,8 @@ class Navegacion : AppCompatActivity() {
             when (item.itemId) {
                 //R.id.nav_inicio -> selectedFragment = Buscar()
                 R.id.nav_busqueda -> selectedFragment = Buscar()
-                //R.id.nav_subirMusica -> selectedFragment = Buscar()
+                R.id.nav_subirMusica -> selectedFragment = SubirCancionesActivity()
+                R.id.nav_reproductor -> abrirRep()
             }
             if (selectedFragment != null) {
                 supportFragmentManager.beginTransaction().replace(
@@ -36,5 +38,12 @@ class Navegacion : AppCompatActivity() {
             }
             true
         }
+
+    fun abrirRep(){
+        var listaRep:ArrayList<Cancion> = ArrayList()
+        val intent = Intent (this, ReproductorActivity::class.java)
+        intent.putExtra("lista", listaRep)
+        startActivity(intent)
+    }
 
 }

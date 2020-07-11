@@ -38,8 +38,18 @@ class ListaReproduccionActivity : AppCompatActivity() {
 
     //AÑADE LA LISTA DE REPRODUCCIÓN A LA COLA Y ABRE LA PANTALLA DEL REPRODUCTOR
     fun reproducir(){
-        //val colaG = ColaReproduccion()
-        //colaG.setCanciones(listaRep)
+
+        /*CODIGO PARA LA COLA GLOBAL
+        *
+        * val colaG = ColaReproduccion()
+        * colaG.addCanciones(listaRep)
+        * val intent = Intent (this, ReproductorActivity::class.java)
+        * intent.putExtra("cr", colaG)
+        * startActivity(intent)
+        *
+        * */
+
+
 
         val intent = Intent (this, ReproductorActivity::class.java)
         intent.putExtra("lista", listaRep)

@@ -16,6 +16,7 @@
     <string name="navInicio">Inicio</string>
     <string name="nav_busqueda">Búsqueda</string>
     <string name="nav_subirMusica">Subir música</string>
+    <string name="nav_reproductor">Reproductor</string>
     <string name="barraBusqueda">Artista, canción, álbum…</string>
     <string name="resultadoAlbum"><b>Álbumes</b></string>
     <string name="resultadoCancion"><b>Canciones</b></string>

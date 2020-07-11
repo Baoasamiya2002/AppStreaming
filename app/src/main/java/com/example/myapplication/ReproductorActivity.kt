@@ -7,6 +7,7 @@ import android.os.Handler
 import android.view.View
 import android.widget.MediaController
 import android.widget.SeekBar
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_reproductor.*
 import java.util.concurrent.TimeUnit
 
@@ -21,7 +22,6 @@ class ReproductorActivity : AppCompatActivity(), View.OnClickListener, SeekBar.O
                 if (flagPP == false) {
                     audioPlay()
                     flagPP = true
-                    //btnPlayPause.setBackgroundResource()
                 } else {
                     if (flagPP == true) {
                         audioPause()
@@ -68,13 +68,21 @@ class ReproductorActivity : AppCompatActivity(), View.OnClickListener, SeekBar.O
     lateinit var mediaPlayer: MediaPlayer
     lateinit var  mediaController: MediaController
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_reproductor)
 
 
+        /* CODIGO PARA LA COLA GLOBAL
+        *
+        * cr = intent.getSerializableExtra("cr") as ColaReproduccion
+        * cancionesCola = cr.getCanciones()
+        *
+        * */
         cancionesCola = intent.getSerializableExtra("lista") as ArrayList<Cancion>
-        cargarColas()
+
 
         //REPRODUCTOR
         mediaController = MediaController(this)
@@ -85,8 +93,14 @@ class ReproductorActivity : AppCompatActivity(), View.OnClickListener, SeekBar.O
         btnPrev.setOnClickListener(this)
         btnNext.setOnClickListener(this)
 
-        audioStart(posCola)
-        flagPP = true
+        if(cancionesCola.size == 0){
+            Toast.makeText(applicationContext,"No hay canciones en la cola", Toast.LENGTH_SHORT).show()
+        } else {
+            cargarColas()
+            audioStart(posCola)
+            flagPP = true
+        }
+
     }
 
     fun cargarColas(){

@@ -15,4 +15,8 @@
             android:id="@+id/nav_subirMusica"
             android:icon="@drawable/ic_baseline_cloud_upload_24"
             android:title="@string/nav_subirMusica"/>
+    <item
+        android:id="@+id/nav_reproductor"
+        android:icon="@android:drawable/ic_menu_slideshow"
+        android:title="@string/nav_reproductor" />
 </menu>
