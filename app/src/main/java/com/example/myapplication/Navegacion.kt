@@ -25,7 +25,7 @@ class Navegacion : AppCompatActivity() {
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
             var selectedFragment: Fragment? = null
             when (item.itemId) {
-                //R.id.nav_inicio -> selectedFragment = Buscar()
+                R.id.nav_inicio -> selectedFragment = Inicio()
                 R.id.nav_busqueda -> selectedFragment = Buscar()
                 R.id.nav_subirMusica -> selectedFragment = SubirCancionesActivity()
                 R.id.nav_reproductor -> abrirRep()

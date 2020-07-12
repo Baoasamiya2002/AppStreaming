@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:orientation="vertical"
+              android:layout_height="match_parent"
+              android:layout_margin="10dp"
+              tools:context=".Inicio">
+
+    <TextView
+            android:id="@+id/tvBienvenida"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/bienvenida"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+            android:textColor="@color/verde"
+            android:layout_margin="5dp"/>
+
+    <TextView
+            android:id="@+id/tvInicioListaReproduccion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/inicioListadereproduccion"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textColor="@color/morado"
+            android:layout_margin="5dp"/>
+    <GridView
+            android:layout_margin="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:numColumns="3"
+            android:verticalSpacing="20dp"
+            android:columnWidth="100dp"
+            android:gravity="center"
+            android:stretchMode="spacingWidth"
+            android:id="@+id/gvListaReproduccion"/>
+
+    <TextView
+            android:id="@+id/tvInicioRadio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/inicioRadio"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textColor="@color/morado"
+            android:layout_margin="5dp"/>
+    <GridView
+            android:layout_margin="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:numColumns="3"
+            android:verticalSpacing="20dp"
+            android:columnWidth="100dp"
+            android:gravity="center"
+            android:stretchMode="spacingWidth"
+            android:id="@+id/gvRadio"/>
+
+</LinearLayout>
