@@ -9,7 +9,7 @@ import android.widget.ArrayAdapter
 import kotlinx.android.synthetic.main.lista_item.view.*
 
 
-class Cancion_Adapter(private val mContext: Context, private val listaCanciones: List<Cancion>,
+class Cancion_Adapter(private val mContext: Context, private var listaCanciones: List<Cancion>,
                       private val mLayoutInflater: LayoutInflater) : ArrayAdapter<Cancion>(mContext, 0, listaCanciones) {
     @SuppressLint("ViewHolder")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {

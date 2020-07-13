@@ -23,6 +23,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Realizar_suscripcion" />
+        <activity android:name=".Navegacion"/>
         <activity android:name=".ReproductorActivity" />
         <activity android:name=".ListaReproduccionActivity">
 
