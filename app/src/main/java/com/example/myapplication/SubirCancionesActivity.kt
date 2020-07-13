@@ -40,8 +40,10 @@ class SubirCancionesActivity : Fragment(), AdapterView.OnItemClickListener {
         dirRaiz = Environment.getExternalStorageDirectory().path
         //dirRaiz = Environment.getStorageDirectory().absolutePath + "/0B6E-1917"
 
+        Cargar_spinner()
         lstFiles.setOnItemClickListener(this)
         verDir(dirRaiz)
+
 
         /*
         btnSD.setOnClickListener{
@@ -50,8 +52,46 @@ class SubirCancionesActivity : Fragment(), AdapterView.OnItemClickListener {
         btnInterno.setOnClickListener{
             dirInterno()
         }*/
-    }
 
+        btnCargar.setOnClickListener(){
+
+            var nombreCancion = txtNombreCancion.text
+
+            if (llNombreAutor.visibility == 0){
+                var nombreAutor = txtNombreAutor.text
+            } else {
+                var nombreAutor = spinAutores.getSelectedItem()
+            }
+
+            if (llNombreAlbum.visibility == 0){
+                var nombreAlbum = txtNombreAlbum.text
+            } else {
+                var nombreAlbum = spinAlbum.getSelectedItem()
+            }
+
+            if (llGenero.visibility == 0){
+                var genero = txtGenero.text
+            } else {
+                var genero = spinGenero.getSelectedItem()
+            }
+
+        }
+
+        //BOTONES ADD
+        btnAddAutores.setOnClickListener(){
+            llAutorSpinn.visibility = View.INVISIBLE
+            llNombreAutor.visibility = View.VISIBLE
+        }
+        btnAddAlbum.setOnClickListener(){
+            llAlbumSpinn.visibility = View.INVISIBLE
+            llNombreAlbum.visibility = View.VISIBLE
+        }
+        btnAddGenero.setOnClickListener(){
+            llGeneroSpinn.visibility = View.INVISIBLE
+            llGenero.visibility = View.VISIBLE
+        }
+    }
+    /*
     fun dirSD(){
         //dirRaiz = Environment.getStorageDirectory().absolutePath  + "/0B6E-1917"
 
@@ -61,7 +101,7 @@ class SubirCancionesActivity : Fragment(), AdapterView.OnItemClickListener {
     fun dirInterno(){
         dirRaiz = Environment.getExternalStorageDirectory().path
         verDir(dirRaiz)
-    }
+    }*/
 
     fun verDir(rutaDirectorio:String){
         nombreArchivos.clear()
@@ -113,18 +153,33 @@ class SubirCancionesActivity : Fragment(), AdapterView.OnItemClickListener {
         if(archivo.isFile){
             Toast.makeText(activity, archivo.name, Toast.LENGTH_SHORT).show()
             //archivosSeleccionados.add(File(archivo.absolutePath))
-            cargarListaSelec(archivo)
+            //cargarListaSelec(archivo)
         } else {
             verDir(rutaArchivos[p2])
         }
     }
-
+    /*
     fun cargarListaSelec(archivo: File){
 
         archivosSeleccionados.add(archivo)
         nombresSelec.add(archivo.name)
         adapter2 = activity?.applicationContext?.let { File_Adapter(it, nombresSelec, this.layoutInflater) }!!
         lstSelect.adapter = adapter2
+    }*/
+
+    fun Cargar_spinner(){
+        var autores: Array<String> = arrayOf("autor1", "autor2")
+        var albums: Array<String> = arrayOf("album1", "album2")
+        var generos: Array<String> = arrayOf("genero1", "genero2")
+
+        var adapterAutor = activity?.applicationContext?.let { ArrayAdapter<String>(it, R.layout.spinner_item, autores) }
+        spinAutores.adapter = adapterAutor
+
+        var adapterAlbum = activity?.applicationContext?.let { ArrayAdapter<String>(it, R.layout.spinner_item, albums) }
+        spinAlbum.adapter = adapterAlbum
+
+        var adapterGenero = activity?.applicationContext?.let { ArrayAdapter<String>(it, R.layout.spinner_item, generos) }
+        spinGenero.adapter = adapterGenero
     }
 }
 

@@ -25,5 +25,13 @@
     <string name="inicioListadereproduccion">Tus listas de reproducción</string>
     <string name="inicioRadio">Radio por género</string>
     <string name="bienvenida"><b>Bienvenido</b></string>
+    <string name="cancionSelect">Subir Canción</string>
+    <string name="interno">Selecciona Archivo(almacenamiento interno)</string>
+    <string name="btn_subirCancion">SUBIR CANCION</string>
+    <string name="hint_autor">Nombre del Autor</string>
+    <string name="hint_album">Nombre del Album</string>
+    <string name="hint_cancion">Nombre de Canción</string>
+    <string name="hint_genero">Genero</string>
+
     <string name="url">http://25.85.202.200:5004/api/cuenta</string>
 </resources>
