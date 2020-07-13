@@ -6,13 +6,17 @@ import java.io.Serializable
 
 class Cancion : Serializable{
     var nombreCancion: String
+    var autor: String
     var album: String
+    var genero: String
     var imagen: Int
     var song: Int
 
-    constructor(nombreCancion: String, album: String, imagen: Int, song: Int){
+    constructor(nombreCancion: String, autor: String, album: String, genero:String, imagen: Int, song: Int){
         this.nombreCancion = nombreCancion
+        this.autor = autor
         this.album = album
+        this.genero = genero
         this.imagen = imagen
         this.song = song
     }

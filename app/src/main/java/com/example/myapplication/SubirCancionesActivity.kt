@@ -1,8 +1,6 @@
 package com.example.myapplication
 
-import android.app.usage.ExternalStorageStats
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.view.LayoutInflater
@@ -11,15 +9,16 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import androidx.core.os.EnvironmentCompat
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_subir_canciones.*
 import kotlinx.android.synthetic.main.lista_subir_item.view.*
+import org.json.JSONArray
+import org.json.JSONObject
 import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
 
-class SubirCancionesActivity : Fragment(), AdapterView.OnItemClickListener {
+class SubirCancionesActivity : Fragment(), AdapterView.OnItemClickListener, ResultadoListener {
     var nombreArchivos:ArrayList<String> = ArrayList()
     var rutaArchivos:ArrayList<String> = ArrayList()
 
@@ -27,6 +26,7 @@ class SubirCancionesActivity : Fragment(), AdapterView.OnItemClickListener {
     lateinit var dirRaiz:String
 
     //LISTA DE SELECCION
+    lateinit var archivoCancion : File
     var archivosSeleccionados:ArrayList<File> = ArrayList()
     lateinit var adapter2: ArrayAdapter<String>
     var nombresSelec: ArrayList<String> = ArrayList()
@@ -38,43 +38,50 @@ class SubirCancionesActivity : Fragment(), AdapterView.OnItemClickListener {
         super.onActivityCreated(savedInstanceState)
 
         dirRaiz = Environment.getExternalStorageDirectory().path
-        //dirRaiz = Environment.getStorageDirectory().absolutePath + "/0B6E-1917"
 
         Cargar_spinner()
         lstFiles.setOnItemClickListener(this)
         verDir(dirRaiz)
 
-
-        /*
-        btnSD.setOnClickListener{
-            dirSD()
-        }
-        btnInterno.setOnClickListener{
-            dirInterno()
-        }*/
-
         btnCargar.setOnClickListener(){
 
-            var nombreCancion = txtNombreCancion.text
+            var nombreCancion = txtNombreCancion.text.toString()
+            var nombreAutor:String
+            var nombreAlbum:String
+            var genero:String
 
             if (llNombreAutor.visibility == 0){
-                var nombreAutor = txtNombreAutor.text
+                nombreAutor = txtNombreAutor.text.toString()
             } else {
-                var nombreAutor = spinAutores.getSelectedItem()
+                nombreAutor = spinAutores.getSelectedItem().toString()
             }
 
             if (llNombreAlbum.visibility == 0){
-                var nombreAlbum = txtNombreAlbum.text
+                 nombreAlbum = txtNombreAlbum.text.toString()
             } else {
-                var nombreAlbum = spinAlbum.getSelectedItem()
+                 nombreAlbum = spinAlbum.getSelectedItem().toString()
             }
 
             if (llGenero.visibility == 0){
-                var genero = txtGenero.text
+                 genero = txtGenero.text.toString()
             } else {
-                var genero = spinGenero.getSelectedItem()
+                 genero = spinGenero.getSelectedItem().toString()
             }
-
+            if(nombreCancion.equals("") or nombreAutor.equals("") or nombreAlbum.equals("") or genero.equals("")){
+                Toast.makeText(activity, "Campos vacios", Toast.LENGTH_SHORT).show()
+            } else {
+                if(archivoCancion == null){
+                    Toast.makeText(activity, "Selecciona un archivo", Toast.LENGTH_SHORT).show()
+                } else {
+                    var solicitud = Solicitud(activity)
+                    val jsonObject = JSONObject()
+                    jsonObject.put("NombreCancion", nombreCancion)
+                    jsonObject.put("NombreAutor", nombreAutor)
+                    jsonObject.put("NombreAlbum", nombreAlbum)
+                    jsonObject.put("Genero", genero)
+                    solicitud.solicitudPost("/cancion/crear", jsonObject, this)
+                }
+            }
         }
 
         //BOTONES ADD
@@ -91,17 +98,6 @@ class SubirCancionesActivity : Fragment(), AdapterView.OnItemClickListener {
             llGenero.visibility = View.VISIBLE
         }
     }
-    /*
-    fun dirSD(){
-        //dirRaiz = Environment.getStorageDirectory().absolutePath  + "/0B6E-1917"
-
-        verDir(dirRaiz)
-    }
-
-    fun dirInterno(){
-        dirRaiz = Environment.getExternalStorageDirectory().path
-        verDir(dirRaiz)
-    }*/
 
     fun verDir(rutaDirectorio:String){
         nombreArchivos.clear()
@@ -154,18 +150,11 @@ class SubirCancionesActivity : Fragment(), AdapterView.OnItemClickListener {
             Toast.makeText(activity, archivo.name, Toast.LENGTH_SHORT).show()
             //archivosSeleccionados.add(File(archivo.absolutePath))
             //cargarListaSelec(archivo)
+            archivoCancion = archivo
         } else {
             verDir(rutaArchivos[p2])
         }
     }
-    /*
-    fun cargarListaSelec(archivo: File){
-
-        archivosSeleccionados.add(archivo)
-        nombresSelec.add(archivo.name)
-        adapter2 = activity?.applicationContext?.let { File_Adapter(it, nombresSelec, this.layoutInflater) }!!
-        lstSelect.adapter = adapter2
-    }*/
 
     fun Cargar_spinner(){
         var autores: Array<String> = arrayOf("autor1", "autor2")
@@ -180,6 +169,14 @@ class SubirCancionesActivity : Fragment(), AdapterView.OnItemClickListener {
 
         var adapterGenero = activity?.applicationContext?.let { ArrayAdapter<String>(it, R.layout.spinner_item, generos) }
         spinGenero.adapter = adapterGenero
+    }
+
+    override fun getResult(respuesta: JSONObject?) {
+
+    }
+
+    override fun getArrayResult(respuesta: JSONArray?) {
+        
     }
 }
 

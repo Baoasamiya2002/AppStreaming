@@ -91,8 +91,8 @@ class Buscar : Fragment() {
     private fun resultadosAlbumes() {
         listaAlbum?.setVisibility(View.INVISIBLE)
 
-        val cancion1 = Cancion("Walbum1", "Album1", R.drawable.live_streaming)
-        val cancion2 = Cancion("Walbum12", "Album1", R.drawable.live_streaming)
+        val cancion1 = Cancion("Walbum1", "autor1", "album1", "1",R.drawable.live_streaming,0)
+        val cancion2 = Cancion("Walbum12", "autor1", "album1", "1",R.drawable.live_streaming,0)
 
         val list = listOf(cancion1, cancion2)
 
@@ -106,11 +106,11 @@ class Buscar : Fragment() {
     private fun resultadosCanciones() {
         listaCancion?.setVisibility(View.INVISIBLE)
 
-        val cancion1 = Cancion("We Together", "Album1", R.drawable.live_streaming)
-        val cancion2 = Cancion("Wravity", "Album1", R.drawable.live_streaming)
-        val cancion3 = Cancion("WONEY TALK", "Album2", R.drawable.live_streaming)
-        val cancion4 = Cancion("Wou&I", "Album2", R.drawable.live_streaming)
-        val cancion5 = Cancion("Wind Me?", "Album3", R.drawable.live_streaming)
+        val cancion1 = Cancion("We Together","autor1", "album1", "1", R.drawable.live_streaming,0)
+        val cancion2 = Cancion("Wravity", "autor1", "album1", "1", R.drawable.live_streaming,0)
+        val cancion3 = Cancion("WONEY TALK", "autor1", "album1", "1", R.drawable.live_streaming,0)
+        val cancion4 = Cancion("Wou&I", "autor1", "album1", "1", R.drawable.live_streaming,0)
+        val cancion5 = Cancion("Wind Me?", "autor1", "album1", "1",R.drawable.live_streaming,0)
 
         val list = listOf(cancion1, cancion2, cancion3, cancion4, cancion5)
 
