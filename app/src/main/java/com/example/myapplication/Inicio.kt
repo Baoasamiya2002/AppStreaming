@@ -34,10 +34,7 @@ class Inicio : Fragment(), ResultadoListener {
         val solicitud = Solicitud(activity)
         val idUsuario = this.arguments!!.getInt("idUsuario")
         solicitud.solicitudArrayGet("/lista_reproduccion/listasByUser/$idUsuario",this)
-
-        getRadioGenero()
-        val caRadioGenero = activity?.let { CustomAdapter(listaRadioGenero, it) }
-        gvRadio.adapter = caRadioGenero
+        solicitud.solicitudArrayGet("/genero",this)
 
         gvListaReproduccion.onItemClickListener =
             AdapterView.OnItemClickListener { adapterView, view, i, l ->
@@ -56,7 +53,7 @@ class Inicio : Fragment(), ResultadoListener {
     }
 
     private fun getRadioGenero() {
-        val lista1 = ListaReproduccion(7, "ListaGenero1", R.mipmap.image_logo_foreground)
+        /*val lista1 = ListaReproduccion(7, "ListaGenero1", R.mipmap.image_logo_foreground)
         val lista2 = ListaReproduccion(8, "ListaGenero2", R.mipmap.image_logo_foreground)
         val lista4 = ListaReproduccion(12, "ListaGenero4", R.mipmap.image_logo_foreground)
 
@@ -64,7 +61,9 @@ class Inicio : Fragment(), ResultadoListener {
         list.add(lista1)
         list.add(lista2)
         list.add(lista4)
-        listaRadioGenero = list.toTypedArray()
+        listaRadioGenero = list.toTypedArray()*/
+        val caRadioGenero = activity?.let { CustomAdapter(listaRadioGenero, it) }
+        gvRadio.adapter = caRadioGenero
     }
 
     private fun getMiListaReproduccion() {
@@ -104,16 +103,31 @@ class Inicio : Fragment(), ResultadoListener {
     }
 
     override fun getArrayResult(respuesta: JSONArray?) {
-        val list: MutableList<ListaReproduccion> = listaListaReproduccion.toMutableList()
+        if (respuesta != null && respuesta.length() > 0) {
 
-        if (respuesta != null) {
-            for (i in 0 until respuesta.length()) {
-                val listaReproduccion = respuesta.getJSONObject(i)
-                list.add(ListaReproduccion(listaReproduccion.getInt("id"),
-                    listaReproduccion.getString("nombre_lista"), R.mipmap.image_logo_foreground))
+            if(respuesta.getJSONObject(0).has("nombre_lista")){
+
+                val list: MutableList<ListaReproduccion> = listaListaReproduccion.toMutableList()
+                for (i in 0 until respuesta.length()) {
+
+                    val listaReproduccion = respuesta.getJSONObject(i)
+                    list.add(ListaReproduccion(listaReproduccion.getInt("id"),
+                        listaReproduccion.getString("nombre_lista"), R.mipmap.image_logo_foreground))
+                }
+                listaListaReproduccion = list.toTypedArray()
+                getMiListaReproduccion()
+            } else {
+
+                val list: MutableList<ListaReproduccion> = listaRadioGenero.toMutableList()
+                for (i in 0 until respuesta.length()) {
+                    
+                    val listaRadio = respuesta.getJSONObject(i)
+                    list.add(ListaReproduccion(listaRadio.getInt("id"),
+                        listaRadio.getString("nombre_genero"), R.mipmap.image_logo_foreground))
+                }
+                listaRadioGenero = list.toTypedArray()
+                getRadioGenero()
             }
         }
-        listaListaReproduccion = list.toTypedArray()
-        getMiListaReproduccion()
     }
 }
