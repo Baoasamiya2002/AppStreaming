@@ -23,5 +23,7 @@
     <string name="inicioListadereproduccion">Tus listas de reproducción</string>
     <string name="inicioRadio">Radio por género</string>
     <string name="bienvenida"><b>Bienvenido</b></string>
-    <string name="url">http://25.85.202.200:5004/api/cuenta</string>
+    <string name="url">http://25.85.202.200:5004/api</string>
+    <string name="mensajeAlternoRealizarSuscripcion">Hay datos incompletos o inválidos, favor de revisar</string>
+    <string name="mensajeAlternoIniciarSesion">Usuario o contraseña incorrecta</string>
 </resources>
