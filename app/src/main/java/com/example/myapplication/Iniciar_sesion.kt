@@ -22,9 +22,7 @@ class Iniciar_sesion : AppCompatActivity(), ResultadoListener {
     }
 
     fun clickbtnSuscribirse(view: View?) {
-        val intent = Intent(this, Realizar_suscripcion::class.java)/*.apply {
-            putExtra(EXTRA_MESSAGE, "variableAPasar")
-        }*/
+        val intent = Intent(this, Realizar_suscripcion::class.java)
         startActivity(intent)
     }
 
