@@ -2,7 +2,12 @@ package com.example.myapplication
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import kotlinx.android.synthetic.main.activity_realizar_suscripcion.*
+import org.json.JSONArray
+import org.json.JSONObject
 
 
 class Realizar_suscripcion : AppCompatActivity(), ResultadoListener {
@@ -12,9 +17,6 @@ class Realizar_suscripcion : AppCompatActivity(), ResultadoListener {
         setContentView(R.layout.activity_realizar_suscripcion)
         title = "Suscripción"
         supportActionBar?.hide()
-
-        /**/
-        //val message = intent.getStringExtra(EXTRA_MESSAGE)
     }
 
     fun clickbtnSuscribete(view: View?) {
