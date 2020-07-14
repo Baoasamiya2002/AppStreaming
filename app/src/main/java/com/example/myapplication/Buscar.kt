@@ -131,8 +131,8 @@ class Buscar : Fragment(), ResultadoListener {
 
             val cancion = respuesta.getJSONObject(i)
             list.add(Cancion(cancion.getInt("id"),
-                cancion.getString("nombre_cancion"), cancion.getString("album"),
-                R.mipmap.image_logo_foreground))
+                cancion.getString("nombre_cancion"),"",  cancion.getString("album"), "",
+                R.mipmap.image_logo_foreground, ""))
         }
         val adapter = activity?.let { Cancion_Adapter(it, list, activity!!.layoutInflater, arrayListOf(idUsuario, -1)) }
         listaCancion.adapter = adapter

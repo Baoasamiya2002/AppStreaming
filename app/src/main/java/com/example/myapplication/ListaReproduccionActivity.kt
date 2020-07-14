@@ -14,6 +14,7 @@ class ListaReproduccionActivity : AppCompatActivity(), ResultadoListener {
     var listaReproduccion:ListaReproduccion = ListaReproduccion(6, "Lista Ed", R.drawable.image_logo_background)
     var listaRep:ArrayList<Cancion> = ArrayList()
     var tipoList: Int = 0
+    var usuario: ArrayList<Int> = arrayListOf()
 
     //variables donde se guardan los datos de la api
     var listaCanciones: ArrayList<Cancion> = ArrayList()
@@ -23,8 +24,9 @@ class ListaReproduccionActivity : AppCompatActivity(), ResultadoListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lista_reproduccion)
 
-        //listaReproduccion = intent.getSerializableExtra("listaReproduccion") as ListaReproduccion
-        //tipoList = intent.getIntExtra("tipoList", 0)
+        listaReproduccion = intent.getSerializableExtra("lista") as ListaReproduccion
+        tipoList = intent.getIntExtra("tipoList", 0)
+        usuario = intent.getIntegerArrayListExtra("idUsuario")
         //
         txtNombreListaRep.text = listaReproduccion.nombreLista
         imgListaRep.setImageResource(listaReproduccion.imagenLista)
@@ -131,7 +133,7 @@ class ListaReproduccionActivity : AppCompatActivity(), ResultadoListener {
 
 
                 listaRep = listaCanciones
-                val adapter = Cancion_Adapter(this, listaCanciones, this.layoutInflater)
+                val adapter = Cancion_Adapter(this, listaCanciones, this.layoutInflater, usuario)
                 listCanciones.adapter = adapter
             }
         }
