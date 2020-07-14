@@ -41,15 +41,15 @@ class Inicio : Fragment(), ResultadoListener {
             AdapterView.OnItemClickListener { adapterView, view, i, l ->
                 val lista: ListaReproduccion = listaListaReproduccion.get(i)
                 startActivity( Intent(activity, ListaReproduccionActivity::class.java).putExtra("lista", lista)
-                    .putExtra("tipoList", 0).putExtra("idUsuario", idUsuario)
+                    .putExtra("tipoList", 0).putExtra("idUsuario", arrayListOf(idUsuario, 0))
                 )
             }
         gvRadio.onItemClickListener =
             AdapterView.OnItemClickListener { adapterView, view, i, l ->
-                val lista: ListaReproduccion = listaListaReproduccion.get(i)
+                val lista: ListaReproduccion = listaRadioGenero.get(i)
                 startActivity(
                     Intent(activity, ListaReproduccionActivity::class.java).putExtra("lista", lista)
-                        .putExtra("tipoList", 2)
+                        .putExtra("tipoList", 2).putExtra("idUsuario", arrayListOf(idUsuario, -1))
                 )
             }
     }

@@ -19,6 +19,7 @@ import org.json.JSONObject
 class Buscar : Fragment(), ResultadoListener {
     var listalistaReproduccion : MutableList<ListaReproduccion> = mutableListOf<ListaReproduccion>()
     var listaalbum : MutableList<ListaReproduccion> = mutableListOf<ListaReproduccion>()
+    var idUsuario : Int = 0
 
     companion object {
         fun newInstance () : Buscar = Buscar()
@@ -29,6 +30,8 @@ class Buscar : Fragment(), ResultadoListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        idUsuario = this.arguments!!.getInt("idUsuario")
 
         val searchView = view?.findViewById<SearchView>(R.id.searchView)
         searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -60,7 +63,7 @@ class Buscar : Fragment(), ResultadoListener {
                 val lista: ListaReproduccion = listaalbum[i]
                 startActivity(
                     Intent(activity, ListaReproduccionActivity::class.java).putExtra("lista", lista)
-                        .putExtra("tipoList", 1)
+                        .putExtra("tipoList", 1).putExtra("idUsuario", arrayListOf(idUsuario, -1))
                 )
             }
         listaListaReproduccion.onItemClickListener =
@@ -68,7 +71,7 @@ class Buscar : Fragment(), ResultadoListener {
                 val lista: ListaReproduccion = listalistaReproduccion[i]
                 startActivity(
                     Intent(activity, ListaReproduccionActivity::class.java).putExtra("lista", lista)
-                        .putExtra("tipoList", 0)
+                        .putExtra("tipoList", 0).putExtra("idUsuario", arrayListOf(idUsuario, -1))
                 )
             }
     }
@@ -131,7 +134,7 @@ class Buscar : Fragment(), ResultadoListener {
                 cancion.getString("nombre_cancion"), cancion.getString("album"),
                 R.mipmap.image_logo_foreground))
         }
-        val adapter = activity?.let { Cancion_Adapter(it, list, activity!!.layoutInflater) }
+        val adapter = activity?.let { Cancion_Adapter(it, list, activity!!.layoutInflater, arrayListOf(idUsuario, -1)) }
         listaCancion.adapter = adapter
 
         tvCancion.isGone = false
