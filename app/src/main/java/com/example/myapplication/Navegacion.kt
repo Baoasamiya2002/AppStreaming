@@ -10,6 +10,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 class Navegacion : AppCompatActivity() {
 
     var inicioFragment = Fragment()
+    var buscarFragment = Fragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +25,9 @@ class Navegacion : AppCompatActivity() {
         inicioFragment = Inicio()
         inicioFragment.setArguments(bundle)
 
+        buscarFragment = Buscar()
+        buscarFragment.setArguments(bundle)
+
         val menuNavegacion = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         menuNavegacion.setOnNavigationItemSelectedListener(navListener)
         if (savedInstanceState == null) {
@@ -36,7 +40,7 @@ class Navegacion : AppCompatActivity() {
             var selectedFragment: Fragment? = null
             when (item.itemId) {
                 R.id.nav_inicio -> selectedFragment = inicioFragment
-                R.id.nav_busqueda -> selectedFragment = Buscar()
+                R.id.nav_busqueda -> selectedFragment = buscarFragment
                 R.id.nav_subirMusica -> selectedFragment = SubirCancionesActivity()
                 R.id.nav_reproductor -> abrirRep()
             }

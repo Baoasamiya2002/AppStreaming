@@ -76,7 +76,7 @@ class ReproductorActivity : AppCompatActivity(), View.OnClickListener, SeekBar.O
 
     var handler = Handler()
 
-    lateinit var mediaPlayer: MediaPlayer
+    var mediaPlayer: MediaPlayer = MediaPlayer()
     lateinit var  mediaController: MediaController
 
 
@@ -84,7 +84,7 @@ class ReproductorActivity : AppCompatActivity(), View.OnClickListener, SeekBar.O
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_reproductor)
-
+        supportActionBar?.hide()
 
         /* CODIGO PARA LA COLA GLOBAL
         *
@@ -210,7 +210,7 @@ class ReproductorActivity : AppCompatActivity(), View.OnClickListener, SeekBar.O
 
     private fun playMp3(mp3SoundByteArray: ByteArray) {
         try {
-            mediaPlayer = MediaPlayer()
+            
             // create temp file that will hold byte array
             val tempMp3: File = File.createTempFile("kurchina", "mp3", cacheDir)
             tempMp3.deleteOnExit()
@@ -220,17 +220,26 @@ class ReproductorActivity : AppCompatActivity(), View.OnClickListener, SeekBar.O
 
             // resetting mediaplayer instance to evade problems
             mediaPlayer.reset()
-
+/*
             // In case you run into issues with threading consider new instance like:
             // MediaPlayer mediaPlayer = new MediaPlayer();
 
             // Tried passing path directly, but kept getting
             // "Prepare failed.: status=0x1"
-            // so using file descriptor instead
+            // so using file descriptor instead*/
             val fis = FileInputStream(tempMp3)
             mediaPlayer.setDataSource(fis.getFD())
+
             mediaPlayer.prepare()
+
+            seekSong.max = mediaPlayer.duration
+            txtMaxTime.setText(milliToString(seekSong.max))
+            txtCrTime.setText(milliToString(mediaPlayer.currentPosition))
+            seekSong.progress = mediaPlayer.currentPosition
+
             mediaPlayer.start()
+            var updateSeekBarThread = UpdateSeekBarProgress()
+            handler.postDelayed(updateSeekBarThread, 50)
         } catch (ex: IOException) {
             val s: String = ex.toString()
             ex.printStackTrace()
@@ -242,9 +251,9 @@ class ReproductorActivity : AppCompatActivity(), View.OnClickListener, SeekBar.O
     override fun getResult(respuesta: JSONObject?) {
         if(respuesta != null){
             val cancionByteArray = Base64.getDecoder().decode(respuesta.getString("cancion64"))
-            println(respuesta.getString("cancion64"))
-            println(cancionByteArray)
             //PlayAudio(respuesta.getString("cancion64"))
+            txtNombreCancion.setText(respuesta.getString("nombre_cancion"))
+            txtNombreAlbum.setText(respuesta.getString("albumId"))
             playMp3(cancionByteArray)
         }
     }

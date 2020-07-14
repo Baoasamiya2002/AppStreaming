@@ -92,7 +92,7 @@ class Pop_up_cancion() : ResultadoListener {
                 dialog.show()
             } else {
                 val jsonObject = JSONObject()
-                jsonObject.put("Lista_reproduccionId", idUsuario[2])
+                jsonObject.put("Lista_reproduccionId", listaListaReproduccionid?.get(which - 1))
                 jsonObject.put("CancionId", idCancion)
                 solicitud.solicitudPost("/cancionlista_reproduccion/crear", jsonObject, this)
             }

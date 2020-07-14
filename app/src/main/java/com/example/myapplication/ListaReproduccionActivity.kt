@@ -8,6 +8,7 @@ import kotlinx.android.synthetic.main.activity_lista_reproduccion.*
 import org.json.JSONArray
 import org.json.JSONObject
 
+@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class ListaReproduccionActivity : AppCompatActivity(), ResultadoListener {
 
     //lateinit var listaReproduccion:ListaReproduccion
@@ -23,10 +24,12 @@ class ListaReproduccionActivity : AppCompatActivity(), ResultadoListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lista_reproduccion)
+        supportActionBar?.hide()
 
         listaReproduccion = intent.getSerializableExtra("lista") as ListaReproduccion
         tipoList = intent.getIntExtra("tipoList", 0)
         usuario = intent.getIntegerArrayListExtra("idUsuario")
+        usuario.add(listaReproduccion.idLista)
         //
         txtNombreListaRep.text = listaReproduccion.nombreLista
         imgListaRep.setImageResource(listaReproduccion.imagenLista)
@@ -89,6 +92,7 @@ class ListaReproduccionActivity : AppCompatActivity(), ResultadoListener {
 
     }
 
+    /*
     override fun getArrayResult(respuesta: JSONArray?) {
         if(respuesta != null){
             if(respuesta.getJSONObject(0).has("lista_reproduccionId")){
@@ -110,6 +114,63 @@ class ListaReproduccionActivity : AppCompatActivity(), ResultadoListener {
                 getAlbums()
             }
             if(respuesta.getJSONObject(0).has("nombre_album")){
+                var cont = 0
+                while (cont < respuesta.length()){
+                    var json: JSONObject = respuesta[cont] as JSONObject
+                    var album: Album = Album(json.getInt("id"), json.getString("nombre_album"), json.getInt("lanzamiento"), json.getString("discografica"))
+                    albums.add(album)
+                    cont++
+
+                    var cont2 = 0
+                    while (cont2 < albums.size) {
+                        var cont3 = 0
+                        while (cont3 < listaCanciones.size){
+                            if (albums[cont2].id.toString() == listaCanciones[cont3].album) {
+                                listaCanciones[cont3].album = albums[cont2].nombreAlbum
+                            }
+                            cont3++
+                        }
+                        cont2++
+                    }
+
+                }
+
+
+                listaRep = listaCanciones
+                val adapter = Cancion_Adapter(this, listaCanciones, this.layoutInflater, usuario)
+                listCanciones.adapter = adapter
+            }
+        }
+    }*/
+
+    override fun getArrayResult(respuesta: JSONArray?) {
+        if(respuesta != null){
+            if(respuesta.length() < 1){
+                val solicitud = Solicitud(this)
+                solicitud.solicitudDelete("/lista_reproduccion/eliminarLista/${usuario[2]}",this)
+                val intent = Intent(this, Navegacion::class.java)
+                intent.putExtra("idUsuario", usuario[0])
+                startActivity(intent)
+            }
+            else if(respuesta.getJSONObject(0).has("lista_reproduccionId")){
+                var cont = 0
+                while (cont < respuesta.length()) {
+                    var json: JSONObject = respuesta[cont] as JSONObject
+                    var cancion: Cancion = Cancion(
+                        json.getJSONObject("cancion").getInt("id"),
+                        json.getJSONObject("cancion").getString("nombre_cancion"),
+                        json.getJSONObject("cancion").getString("artistaId"),
+                        json.getJSONObject("cancion").getString("albumId"),
+                        json.getJSONObject("cancion").getString("generoId"), 1, ""
+                    )
+
+
+                    listaCanciones.add(cancion)
+                    cont++
+                }
+                getAlbums()
+            }
+            else if(respuesta.getJSONObject(0).has("nombre_album")){
                 var cont = 0
                 while (cont < respuesta.length()){
                     var json: JSONObject = respuesta[cont] as JSONObject

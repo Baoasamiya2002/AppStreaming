@@ -17,17 +17,17 @@
         android:theme="@style/AppTheme">
 
         <activity android:name=".Iniciar_sesion">
-
-        </activity>
-        <activity android:name=".Realizar_suscripcion" />
-        <activity android:name=".Navegacion"/>
-        <activity android:name=".ReproductorActivity" />
-        <activity android:name=".ListaReproduccionActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".Realizar_suscripcion" />
+        <activity android:name=".Navegacion"/>
+        <activity android:name=".ReproductorActivity" />
+        <activity android:name=".ListaReproduccionActivity">
+
         </activity>
     </application>
 
