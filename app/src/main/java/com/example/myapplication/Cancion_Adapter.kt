@@ -9,8 +9,12 @@ import android.widget.ArrayAdapter
 import kotlinx.android.synthetic.main.lista_item.view.*
 
 
-class Cancion_Adapter(private val mContext: Context, private var listaCanciones: List<Cancion>,
-                      private val mLayoutInflater: LayoutInflater) : ArrayAdapter<Cancion>(mContext, 0, listaCanciones) {
+class Cancion_Adapter(
+    private val mContext: Context,
+    private var listaCanciones: List<Cancion>,
+    private val mLayoutInflater: LayoutInflater,
+    private val idUsuario: ArrayList<Int>
+) : ArrayAdapter<Cancion>(mContext, 0, listaCanciones) {
     @SuppressLint("ViewHolder")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val layout = LayoutInflater.from(mContext).inflate(R.layout.lista_item, parent, false)
@@ -24,6 +28,8 @@ class Cancion_Adapter(private val mContext: Context, private var listaCanciones:
             pop_up_cancion.botonCancion = layout.imageButton
             pop_up_cancion.contexto = mContext
             pop_up_cancion.layoutInflater =  mLayoutInflater
+            pop_up_cancion.idUsuario = idUsuario
+            pop_up_cancion.idCancion = cancion.id
 
             val popup = pop_up_cancion.crearPopup()
             popup.show()

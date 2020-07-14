@@ -172,4 +172,36 @@ public class Solicitud {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         queue.add(request);
     }
+
+    public void solicitudDelete(String ruta, final ResultadoListener listener)
+    {
+        String rutaCompleta = url;
+        if(ruta != null)
+            rutaCompleta += ruta;
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.DELETE, rutaCompleta, null,
+                new Response.Listener<JSONObject>()
+                {
+                    @Override
+                    public void onResponse(JSONObject response)
+                    {
+                        listener.getResult(response);
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        if (null != error.networkResponse)
+                        {
+                            Log.d(" Eror: ", ""+ error.networkResponse.statusCode);
+                        }
+                    }
+                });
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                MY_DEFAULT_TIMEOUT,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        queue.add(request);
+    }
 }

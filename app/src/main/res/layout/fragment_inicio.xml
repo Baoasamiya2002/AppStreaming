@@ -1,30 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:orientation="vertical"
               android:layout_height="match_parent"
               android:layout_margin="10dp"
               tools:context=".Inicio">
 
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <TextView
             android:id="@+id/tvBienvenida"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/bienvenida"
             android:textAppearance="@style/TextAppearance.AppCompat.Display2"
             android:textColor="@color/verde"
-            android:layout_margin="5dp"/>
+            android:layout_margin="5dp"
+            tools:ignore="MissingConstraints"/>
 
-    <TextView
+        <TextView
             android:id="@+id/tvInicioListaReproduccion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/inicioListadereproduccion"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textColor="@color/morado"
-            android:layout_margin="5dp"/>
-    <GridView
+            android:layout_margin="5dp"
+            tools:ignore="MissingConstraints"
+            app:layout_constraintTop_toBottomOf="@id/tvBienvenida"/>
+        <GridView
             android:layout_margin="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -34,17 +43,21 @@
             android:columnWidth="100dp"
             android:gravity="center"
             android:stretchMode="spacingWidth"
-            android:id="@+id/gvListaReproduccion"/>
+            android:id="@+id/gvListaReproduccion"
+            tools:ignore="MissingConstraints"
+            app:layout_constraintTop_toBottomOf="@id/tvInicioListaReproduccion"/>
 
-    <TextView
+        <TextView
             android:id="@+id/tvInicioRadio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/inicioRadio"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textColor="@color/morado"
-            android:layout_margin="5dp"/>
-    <GridView
+            android:layout_margin="5dp"
+            tools:ignore="MissingConstraints"
+            app:layout_constraintTop_toBottomOf="@id/gvListaReproduccion"/>
+        <GridView
             android:layout_margin="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -54,6 +67,8 @@
             android:columnWidth="100dp"
             android:gravity="center"
             android:stretchMode="spacingWidth"
-            android:id="@+id/gvRadio"/>
-
-</LinearLayout>
+            android:id="@+id/gvRadio"
+            tools:ignore="MissingConstraints"
+            app:layout_constraintTop_toBottomOf="@id/tvInicioRadio"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

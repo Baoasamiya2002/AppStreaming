@@ -1,22 +1,25 @@
 package com.example.myapplication
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ListView
-import android.widget.TextView
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.appcompat.widget.SearchView
-import androidx.core.view.isInvisible
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_buscar.*
+import org.json.JSONArray
+import org.json.JSONObject
 
 
 @Suppress("UNCHECKED_CAST")
-class Buscar : Fragment() {
-
-    var arrayTextView : Array<TextView> = emptyArray()
-    var arrayListView : Array<ListView> = emptyArray()
+class Buscar : Fragment(), ResultadoListener {
+    var listalistaReproduccion : MutableList<ListaReproduccion> = mutableListOf<ListaReproduccion>()
+    var listaalbum : MutableList<ListaReproduccion> = mutableListOf<ListaReproduccion>()
+    var idUsuario : Int = 0
 
     companion object {
         fun newInstance () : Buscar = Buscar()
@@ -28,10 +31,7 @@ class Buscar : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        tvArtista?.isInvisible = true
-        tvAlbum?.isInvisible = true
-        tvCancion?.isInvisible = true
-        tvListaReproduccion?.isInvisible = true
+        idUsuario = this.arguments!!.getInt("idUsuario")
 
         val searchView = view?.findViewById<SearchView>(R.id.searchView)
         searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -40,96 +40,136 @@ class Buscar : Fragment() {
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                resultadosCanciones()
-                resultadosAlbumes()
-                resultadosArtistas()
-                resultadosListasReproduccion()
                 if(newText.trim() == ""){
-                    for (i in 0..2) {
-                        arrayTextView.get(i).isInvisible = true
-                        arrayListView.get(i).setVisibility(View.INVISIBLE)
-                    }
+                    tvCancion.isGone = true
+                    listaCancion.isGone = true
+                    tvAlbum.isGone = true
+                    listaAlbum.isGone = true
+                    tvListaReproduccion.isGone = true
+                    listaListaReproduccion.isGone = true
+                    tvArtista.isGone = true
+                    listaArtista.isGone = true
                 } else {
-                    for (i in 0..2) {
-                        if(arrayListView.get(i).count > 0){
-                            arrayTextView.get(i).isInvisible = false
-                            arrayListView.get(i).setVisibility(View.VISIBLE)
-                        }
-                    }
+                    busquedaPalabra(newText)
                 }
                 return false
             }
         })
         searchView?.setFocusable(true)
         searchView?.setIconified(false)
+
+        listaAlbum.onItemClickListener =
+            AdapterView.OnItemClickListener { adapterView, view, i, l ->
+                val lista: ListaReproduccion = listaalbum[i]
+                startActivity(
+                    Intent(activity, ListaReproduccionActivity::class.java).putExtra("lista", lista)
+                        .putExtra("tipoList", 1).putExtra("idUsuario", arrayListOf(idUsuario, -1))
+                )
+            }
+        listaListaReproduccion.onItemClickListener =
+            AdapterView.OnItemClickListener { adapterView, view, i, l ->
+                val lista: ListaReproduccion = listalistaReproduccion[i]
+                startActivity(
+                    Intent(activity, ListaReproduccionActivity::class.java).putExtra("lista", lista)
+                        .putExtra("tipoList", 0).putExtra("idUsuario", arrayListOf(idUsuario, -1))
+                )
+            }
     }
 
-    private fun resultadosListasReproduccion() {
-        listaListaReproduccion?.setVisibility(View.INVISIBLE)
+    private fun resultadosListasReproduccion(respuesta: JSONArray) {
+        val list = mutableListOf<ListaReproduccion>()
+        for (i in 0 until respuesta.length()) {
 
-        val list : ArrayList<Cancion> = ArrayList()
-
-        val adapter = activity?.let { Cancion_Adapter(it, list, activity!!.layoutInflater) }
-
+            val listaReproduccion = respuesta.getJSONObject(i)
+            list.add(ListaReproduccion(listaReproduccion.getInt("id"),
+                listaReproduccion.getString("nombre_lista"), R.mipmap.image_logo_foreground))
+        }
+        listalistaReproduccion = list
+        val listaReproduccion = list.toTypedArray()
+        val adapter = activity?.let { Lista_Adapter(listaReproduccion, it) }
         listaListaReproduccion.adapter = adapter
 
-        agregarAArray(tvListaReproduccion, listaListaReproduccion)
+        tvListaReproduccion.isGone = false
+        listaListaReproduccion.isGone = false
     }
 
-    private fun resultadosArtistas() {
-        listaArtista?.setVisibility(View.INVISIBLE)
+    private fun resultadosArtistas(respuesta: JSONArray) {
+        val list = arrayOfNulls<String>(respuesta.length())
+        for (i in 0 until respuesta.length()) {
 
-        val list : ArrayList<Cancion> = ArrayList()
+            val artista = respuesta.getJSONObject(i)
+            list[i] = artista.getString("nombre_artista")
+        }
 
-        val adapter = activity?.let { Cancion_Adapter(it, list, activity!!.layoutInflater) }
-
+        val adapter = activity?.let { ArrayAdapter(it, android.R.layout.simple_list_item_1, list) }
         listaArtista.adapter = adapter
 
-        agregarAArray(tvArtista, listaArtista)
+        tvArtista.isGone = false
+        listaArtista.isGone = false
     }
 
-    private fun resultadosAlbumes() {
-        listaAlbum?.setVisibility(View.INVISIBLE)
+    private fun resultadosAlbumes(respuesta: JSONArray) {
+        val list = mutableListOf<ListaReproduccion>()
+        for (i in 0 until respuesta.length()) {
 
-       // val cancion1 = Cancion("Walbum1", "autor1", "album1", "1",R.drawable.live_streaming,0)
-        //val cancion2 = Cancion("Walbum12", "autor1", "album1", "1",R.drawable.live_streaming,0)
-
-        val list : ArrayList<Cancion> = ArrayList()
-
-        val adapter = activity?.let { Cancion_Adapter(it, list, activity!!.layoutInflater) }
-
+            val album = respuesta.getJSONObject(i)
+            list.add(ListaReproduccion(album.getInt("id"),
+                album.getString("nombre_album"), R.mipmap.image_logo_foreground))
+        }
+        listaalbum = list
+        val listaReproduccion = list.toTypedArray()
+        val adapter = activity?.let { Lista_Adapter(listaReproduccion, it) }
         listaAlbum.adapter = adapter
 
-        agregarAArray(tvAlbum, listaAlbum)
+        tvAlbum.isGone = false
+        listaAlbum.isGone = false
     }
 
-    private fun resultadosCanciones() {
-        listaCancion?.setVisibility(View.INVISIBLE)
+    private fun resultadosCanciones(respuesta: JSONArray) {
+        val list = mutableListOf<Cancion>()
+        for (i in 0 until respuesta.length()) {
 
-        //val cancion1 = Cancion("We Together","autor1", "album1", "1", R.drawable.live_streaming,0)
-        //val cancion2 = Cancion("Wravity", "autor1", "album1", "1", R.drawable.live_streaming,0)
-        //val cancion3 = Cancion("WONEY TALK", "autor1", "album1", "1", R.drawable.live_streaming,0)
-        //val cancion4 = Cancion("Wou&I", "autor1", "album1", "1", R.drawable.live_streaming,0)
-        //val cancion5 = Cancion("Wind Me?", "autor1", "album1", "1",R.drawable.live_streaming,0)
-
-        val list : ArrayList<Cancion> = ArrayList()
-
-        val adapter = activity?.let { Cancion_Adapter(it, list, activity!!.layoutInflater) }
-
+            val cancion = respuesta.getJSONObject(i)
+            list.add(Cancion(cancion.getInt("id"),
+                cancion.getString("nombre_cancion"), cancion.getString("album"),
+                R.mipmap.image_logo_foreground))
+        }
+        val adapter = activity?.let { Cancion_Adapter(it, list, activity!!.layoutInflater, arrayListOf(idUsuario, -1)) }
         listaCancion.adapter = adapter
 
-        agregarAArray(tvCancion, listaCancion)
+        tvCancion.isGone = false
+        listaCancion.isGone = false
     }
 
-    private fun agregarAArray(textView: TextView?, listView: ListView?) {
-        val listaTv: MutableList<TextView> = arrayTextView.toMutableList()
-        textView?.let { listaTv.add(it) }
-        arrayTextView = listaTv.toTypedArray()
-
-        val listaLv: MutableList<ListView> = arrayListView.toMutableList()
-        listView?.let { listaLv.add(it) }
-        arrayListView = listaLv.toTypedArray()
+    private fun busquedaPalabra(palabraBusqueda : String) {
+        val solicitud = Solicitud(activity)
+        solicitud.solicitudArrayGet("/cancion/busqueda/$palabraBusqueda",this)
+        solicitud.solicitudArrayGet("/album/busqueda/$palabraBusqueda",this)
+        solicitud.solicitudArrayGet("/lista_reproduccion/buscar/$palabraBusqueda",this)
+        solicitud.solicitudArrayGet("/artista/busqueda/$palabraBusqueda",this)
     }
 
+    override fun getResult(respuesta: JSONObject?) {
+    }
 
+    override fun getArrayResult(respuesta: JSONArray?) {
+        if (respuesta != null && respuesta.length() > 0) {
+            if(respuesta.getJSONObject(0).has("nombre_cancion")){
+
+                resultadosCanciones(respuesta)
+            }
+            else if(respuesta.getJSONObject(0).has("nombre_album")) {
+
+                resultadosAlbumes(respuesta)
+            }
+            else if(respuesta.getJSONObject(0).has("nombre_lista")) {
+
+                resultadosListasReproduccion(respuesta)
+            }
+            else if(respuesta.getJSONObject(0).has("nombre_artista")) {
+
+                resultadosArtistas(respuesta)
+            }
+        }
+    }
 }

@@ -8,7 +8,6 @@
         android:orientation="vertical"
         tools:context=".Buscar">
 
-
     <androidx.appcompat.widget.SearchView
             android:id="@+id/searchView"
             android:layout_width="match_parent"
@@ -19,59 +18,103 @@
             android:background="@color/fondo2"
             app:queryBackground="@android:color/transparent"/>
 
-    <TextView
-            android:id="@+id/tvCancion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/resultadoCancion"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:textColor="@color/morado"
-            android:layout_margin="5dp"/>
-    <ListView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/listaCancion"
-            android:dividerHeight="2dp"/>
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:fillViewport="true">
 
-    <TextView
-            android:id="@+id/tvAlbum"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/resultadoAlbum"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:textColor="@color/morado"
-            android:layout_margin="5dp"/>
-    <ListView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/listaAlbum"
-            android:dividerHeight="2dp"/>
+            android:layout_height="match_parent"
+            android:gravity="center">
 
-    <TextView
-            android:id="@+id/tvArtista"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/resultadoArtista"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:textColor="@color/morado"
-            android:layout_margin="5dp"/>
-    <ListView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/listaArtista"
-            android:dividerHeight="2dp"/>
+            <TextView
+                android:id="@+id/tvCancion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/resultadoCancion"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textColor="@color/morado"
+                android:layout_margin="5dp"
+                android:visibility="gone"
+                tools:ignore="MissingConstraints"/>
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/listaCancion"
+                android:dividerHeight="2dp"
+                android:visibility="gone"
+                tools:ignore="MissingConstraints"
+                app:layout_constraintTop_toBottomOf="@id/tvCancion"/>
 
-    <TextView
-            android:id="@+id/tvListaReproduccion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/resultadoListadereproduccion"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:textColor="@color/morado"
-            android:layout_margin="5dp"/>
-    <ListView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/listaListaReproduccion"
-            android:dividerHeight="2dp"/>
+            <TextView
+                android:id="@+id/tvAlbum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/resultadoAlbum"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textColor="@color/morado"
+                android:layout_margin="5dp"
+                android:visibility="gone"
+                tools:ignore="MissingConstraints"
+                app:layout_constraintTop_toBottomOf="@id/listaCancion"/>
+            <GridView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numColumns="3"
+                android:verticalSpacing="20dp"
+                android:columnWidth="100dp"
+                android:gravity="center"
+                android:stretchMode="spacingWidth"
+                android:id="@+id/listaAlbum"
+                android:visibility="gone"
+                tools:ignore="MissingConstraints"
+                app:layout_constraintTop_toBottomOf="@id/tvAlbum"/>
+
+            <TextView
+                android:id="@+id/tvArtista"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/resultadoArtista"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textColor="@color/morado"
+                android:layout_margin="5dp"
+                android:visibility="gone"
+                tools:ignore="MissingConstraints"
+                app:layout_constraintTop_toBottomOf="@id/listaAlbum"/>
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/listaArtista"
+                android:dividerHeight="2dp"
+                android:visibility="gone"
+                tools:ignore="MissingConstraints"
+                app:layout_constraintTop_toBottomOf="@id/tvArtista"/>
+
+            <TextView
+                android:id="@+id/tvListaReproduccion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/resultadoListadereproduccion"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textColor="@color/morado"
+                android:layout_margin="5dp"
+                android:visibility="gone"
+                tools:ignore="MissingConstraints"
+                app:layout_constraintTop_toBottomOf="@id/listaArtista"/>
+            <GridView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numColumns="3"
+                android:verticalSpacing="20dp"
+                android:columnWidth="100dp"
+                android:gravity="center"
+                android:stretchMode="spacingWidth"
+                android:id="@+id/listaListaReproduccion"
+                android:visibility="gone"
+                tools:ignore="MissingConstraints"
+                app:layout_constraintTop_toBottomOf="@id/tvListaReproduccion"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>

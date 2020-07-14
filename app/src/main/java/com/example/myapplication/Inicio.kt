@@ -1,17 +1,13 @@
 package com.example.myapplication
 
-import android.content.Context
-import android.content.Context.LAYOUT_INFLATER_SERVICE
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.BaseAdapter
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_inicio.*
-import kotlinx.android.synthetic.main.item_listareproduccion.view.*
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -31,89 +27,74 @@ class Inicio : Fragment(), ResultadoListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        listaListaReproduccion = emptyArray()
+        listaRadioGenero = emptyArray()
+
         val solicitud = Solicitud(activity)
         val idUsuario = this.arguments!!.getInt("idUsuario")
         solicitud.solicitudArrayGet("/lista_reproduccion/listasByUser/$idUsuario",this)
+        solicitud.solicitudArrayGet("/genero",this)
 
-        getRadioGenero()
-        val caRadioGenero = activity?.let { CustomAdapter(listaRadioGenero, it) }
-        gvRadio.adapter = caRadioGenero
+
 
         gvListaReproduccion.onItemClickListener =
             AdapterView.OnItemClickListener { adapterView, view, i, l ->
-                val idLista: Int = listaListaReproduccion.get(i).idLista
-                startActivity(
-                    Intent(activity, ListaReproduccionActivity::class.java)//.putExtra("idLista", idLista)
+                val lista: ListaReproduccion = listaListaReproduccion.get(i)
+                startActivity( Intent(activity, ListaReproduccionActivity::class.java).putExtra("lista", lista)
+                    .putExtra("tipoList", 0).putExtra("idUsuario", arrayListOf(idUsuario, 0))
                 )
             }
         gvRadio.onItemClickListener =
             AdapterView.OnItemClickListener { adapterView, view, i, l ->
-                val idLista: Int = listaRadioGenero.get(i).idLista
+                val lista: ListaReproduccion = listaRadioGenero.get(i)
                 startActivity(
-                    Intent(activity, ListaReproduccionActivity::class.java)//.putExtra("idLista", idLista)
+                    Intent(activity, ListaReproduccionActivity::class.java).putExtra("lista", lista)
+                        .putExtra("tipoList", 2).putExtra("idUsuario", arrayListOf(idUsuario, -1))
                 )
             }
     }
 
     private fun getRadioGenero() {
-        val lista1 = ListaReproduccion(7, "ListaGenero1", R.mipmap.image_logo_foreground)
-        val lista2 = ListaReproduccion(8, "ListaGenero2", R.mipmap.image_logo_foreground)
-        val lista4 = ListaReproduccion(12, "ListaGenero4", R.mipmap.image_logo_foreground)
-
-        val list: MutableList<ListaReproduccion> = listaRadioGenero.toMutableList()
-        list.add(lista1)
-        list.add(lista2)
-        list.add(lista4)
-        listaRadioGenero = list.toTypedArray()
+        val caRadioGenero = activity?.let { Lista_Adapter(listaRadioGenero, it) }
+        gvRadio.adapter = caRadioGenero
     }
 
     private fun getMiListaReproduccion() {
-        val caListaReproduccion = activity?.let { CustomAdapter(listaListaReproduccion, it) }
+        val caListaReproduccion = activity?.let { Lista_Adapter(listaListaReproduccion, it) }
         gvListaReproduccion.adapter = caListaReproduccion
     }
 
-    class CustomAdapter(val listaListaReproduccion : Array<ListaReproduccion>, val context: Context) : BaseAdapter() {
 
-        val layoutInflater = (context.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater)
-
-        override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-            val layout = layoutInflater.inflate(R.layout.item_listareproduccion, parent, false)
-            val listaReproduccion = listaListaReproduccion[position]
-
-            layout.tvNombreListareproduccion.text = listaReproduccion.nombreLista
-            layout.ivInicioListareproduccion.setImageResource(listaReproduccion.imagenLista)
-
-            return layout
-        }
-
-        override fun getItem(position: Int): Any? {
-            return null
-        }
-
-        override fun getItemId(position: Int): Long {
-            return 0
-        }
-
-        override fun getCount(): Int {
-            return listaListaReproduccion.size
-        }
-
-    }
 
     override fun getResult(respuesta: JSONObject?) {
     }
 
     override fun getArrayResult(respuesta: JSONArray?) {
-        val list: MutableList<ListaReproduccion> = listaListaReproduccion.toMutableList()
+        if (respuesta != null && respuesta.length() > 0) {
 
-        if (respuesta != null) {
-            for (i in 0 until respuesta.length()) {
-                val listaReproduccion = respuesta.getJSONObject(i)
-                list.add(ListaReproduccion(listaReproduccion.getInt("id"),
-                    listaReproduccion.getString("nombre_lista"), R.mipmap.image_logo_foreground))
+            if(respuesta.getJSONObject(0).has("nombre_lista")){
+
+                val list: MutableList<ListaReproduccion> = listaListaReproduccion.toMutableList()
+                for (i in 0 until respuesta.length()) {
+
+                    val listaReproduccion = respuesta.getJSONObject(i)
+                    list.add(ListaReproduccion(listaReproduccion.getInt("id"),
+                        listaReproduccion.getString("nombre_lista"), R.mipmap.image_logo_foreground))
+                }
+                listaListaReproduccion = list.toTypedArray()
+                getMiListaReproduccion()
+            } else {
+
+                val list: MutableList<ListaReproduccion> = listaRadioGenero.toMutableList()
+                for (i in 0 until respuesta.length()) {
+                    
+                    val listaRadio = respuesta.getJSONObject(i)
+                    list.add(ListaReproduccion(listaRadio.getInt("id"),
+                        listaRadio.getString("nombre_genero"), R.mipmap.image_logo_foreground))
+                }
+                listaRadioGenero = list.toTypedArray()
+                getRadioGenero()
             }
         }
-        listaListaReproduccion = list.toTypedArray()
-        getMiListaReproduccion()
     }
 }
