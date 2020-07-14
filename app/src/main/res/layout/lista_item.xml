@@ -16,7 +16,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/live_streaming" />
+        app:srcCompat="@mipmap/image_logo" />
 
     <TextView
         android:id="@+id/txtNombreCancion"
@@ -26,7 +26,9 @@
         android:layout_marginLeft="14dp"
         android:layout_marginTop="16dp"
         android:text="TextView"
+        android:textColor="@color/letras"
         android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/imgCancion"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -37,6 +39,7 @@
         android:layout_marginStart="14dp"
         android:layout_marginLeft="14dp"
         android:text="TextView"
+        android:textColor="@color/letras"
         android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@+id/imgCancion"
         app:layout_constraintTop_toBottomOf="@+id/txtNombreCancion" />
@@ -49,6 +52,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="23dp"
+        android:background="#00EDEDED"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"

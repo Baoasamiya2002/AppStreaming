@@ -18,12 +18,11 @@ class Cancion_Adapter(
     @SuppressLint("ViewHolder")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val layout = LayoutInflater.from(mContext).inflate(R.layout.lista_item, parent, false)
-
         val cancion = listaCanciones[position]
 
         layout.txtNombreCancion.text = cancion.nombreCancion
         layout.txtNombreAlbum.text = cancion.album
-        layout.imgCancion.setImageResource(cancion.imagen)
+        //layout.imgCancion.setImageResource(cancion.imagen)
         layout.imageButton.setOnClickListener{
             val pop_up_cancion = Pop_up_cancion()
             pop_up_cancion.botonCancion = layout.imageButton
@@ -35,7 +34,6 @@ class Cancion_Adapter(
             val popup = pop_up_cancion.crearPopup()
             popup.show()
         }
-
         return layout
     }
 }

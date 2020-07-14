@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    tools:context=".SubirCancionesActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/btnCargar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_subirCancion"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/llAutorSpinn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@id/llNombreAlbum"
+            app:layout_constraintTop_toBottomOf="@id/llNombreCancion">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Artista"
+                    app:layout_constraintBottom_toTopOf="@+id/spinAutores"
+                    app:layout_constraintEnd_toEndOf="@+id/spinAutores"
+                    app:layout_constraintStart_toStartOf="@+id/spinAutores" />
+
+                <Spinner
+                    android:id="@+id/spinAutores"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/btnAddAutores"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/btnAddAutores"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#00FFFFFF"
+                    android:src="@android:drawable/ic_input_add"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llAlbumSpinn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@id/llGenero"
+            app:layout_constraintTop_toBottomOf="@id/llNombreAutor">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Album"
+                    app:layout_constraintBottom_toTopOf="@+id/spinAlbum"
+                    app:layout_constraintEnd_toEndOf="@+id/spinAlbum"
+                    app:layout_constraintStart_toStartOf="@+id/spinAlbum" />
+
+                <Spinner
+                    android:id="@+id/spinAlbum"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/btnAddAlbum"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/btnAddAlbum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#00FFFFFF"
+                    android:src="@android:drawable/ic_input_add"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llGeneroSpinn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@id/textView4"
+            app:layout_constraintTop_toBottomOf="@id/llNombreAlbum">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Genero"
+                    app:layout_constraintBottom_toTopOf="@+id/spinGenero"
+                    app:layout_constraintEnd_toEndOf="@+id/spinGenero"
+                    app:layout_constraintStart_toStartOf="@+id/spinGenero" />
+
+                <Spinner
+                    android:id="@+id/spinGenero"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/btnAddGenero"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:visibility="visible" />
+
+                <ImageButton
+                    android:id="@+id/btnAddGenero"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#00FFFFFF"
+                    android:src="@android:drawable/ic_input_add"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llNombreCancion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="visible"
+            app:layout_constraintTop_toBottomOf="@+id/textView3">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilNombreCancion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible">
+
+                <EditText
+                    android:id="@+id/txtNombreCancion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="@string/hint_cancion"
+                    android:inputType="textPersonName" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llNombreAutor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="invisible"
+            app:layout_constraintTop_toBottomOf="@+id/llNombreCancion">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilNombreAutor"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible">
+
+                <EditText
+                    android:id="@+id/txtNombreAutor"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="@string/hint_autor"
+                    android:inputType="textPersonName" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llNombreAlbum"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="invisible"
+            app:layout_constraintTop_toBottomOf="@+id/llNombreAutor">
+
+            <ImageButton
+                android:id="@+id/imageButton2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@android:drawable/ic_input_add" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilNombreAlbum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible">
+
+                <EditText
+                    android:id="@+id/txtNombreAlbum"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="@string/hint_album"
+                    android:inputType="textPersonName" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llGenero"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="invisible"
+            app:layout_constraintTop_toBottomOf="@+id/llNombreAlbum">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilGenero"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/txtGenero"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="@string/hint_genero"
+                    android:inputType="textPersonName" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/lstFiles"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/btnCargar"
+            app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="15dp"
+            android:text="@string/cancionSelect"
+            android:textAllCaps="true"
+            android:textSize="18sp"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="118dp" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingTop="15dp"
+            android:text="@string/interno"
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@+id/llGenero" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>
