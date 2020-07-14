@@ -1,14 +1,17 @@
 package com.example.myapplication
 
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.os.FileUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_subir_canciones.*
 import kotlinx.android.synthetic.main.lista_subir_item.view.*
@@ -19,14 +22,22 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class SubirCancionesActivity : Fragment(), AdapterView.OnItemClickListener, ResultadoListener {
+
+    //listasdeIDs
+    var idAutores = ArrayList<Int>()
+    var idAlbums = ArrayList<Int>()
+    var idGeneros = ArrayList<Int>()
+
     var nombreArchivos:ArrayList<String> = ArrayList()
     var rutaArchivos:ArrayList<String> = ArrayList()
 
     lateinit var adaptador: ArrayAdapter<String>
     lateinit var dirRaiz:String
 
+    var archivo64:String = ""
+
     //LISTA DE SELECCION
-    lateinit var archivoCancion : File
+    var archivoCancion: File? = null
     var archivosSeleccionados:ArrayList<File> = ArrayList()
     lateinit var adapter2: ArrayAdapter<String>
     var nombresSelec: ArrayList<String> = ArrayList()
@@ -44,44 +55,7 @@ class SubirCancionesActivity : Fragment(), AdapterView.OnItemClickListener, Resu
         verDir(dirRaiz)
 
         btnCargar.setOnClickListener(){
-
-            var nombreCancion = txtNombreCancion.text.toString()
-            var nombreAutor:String
-            var nombreAlbum:String
-            var genero:String
-
-            if (llNombreAutor.visibility == 0){
-                nombreAutor = txtNombreAutor.text.toString()
-            } else {
-                nombreAutor = spinAutores.getSelectedItem().toString()
-            }
-
-            if (llNombreAlbum.visibility == 0){
-                 nombreAlbum = txtNombreAlbum.text.toString()
-            } else {
-                 nombreAlbum = spinAlbum.getSelectedItem().toString()
-            }
-
-            if (llGenero.visibility == 0){
-                 genero = txtGenero.text.toString()
-            } else {
-                 genero = spinGenero.getSelectedItem().toString()
-            }
-            if(nombreCancion.equals("") or nombreAutor.equals("") or nombreAlbum.equals("") or genero.equals("")){
-                Toast.makeText(activity, "Campos vacios", Toast.LENGTH_SHORT).show()
-            } else {
-                if(archivoCancion == null){
-                    Toast.makeText(activity, "Selecciona un archivo", Toast.LENGTH_SHORT).show()
-                } else {
-                    var solicitud = Solicitud(activity)
-                    val jsonObject = JSONObject()
-                    jsonObject.put("NombreCancion", nombreCancion)
-                    jsonObject.put("NombreAutor", nombreAutor)
-                    jsonObject.put("NombreAlbum", nombreAlbum)
-                    jsonObject.put("Genero", genero)
-                    solicitud.solicitudPost("/cancion/crear", jsonObject, this)
-                }
-            }
+            subirCancion()
         }
 
         //BOTONES ADD
@@ -96,6 +70,50 @@ class SubirCancionesActivity : Fragment(), AdapterView.OnItemClickListener, Resu
         btnAddGenero.setOnClickListener(){
             llGeneroSpinn.visibility = View.INVISIBLE
             llGenero.visibility = View.VISIBLE
+        }
+    }
+
+    fun subirCancion(){
+        var nombreCancion = txtNombreCancion.text.toString()
+        var nombreAutor:Int = 0
+        var nombreAlbum:Int = 0
+        var genero:Int = 0
+
+        if (llNombreAutor.visibility == 0){
+            //nombreAutor = txtNombreAutor.text.toString()
+        } else {
+            nombreAutor = idAutores.get(spinAutores.selectedItemPosition)
+        }
+
+        if (llNombreAlbum.visibility == 0){
+            //nombreAlbum = txtNombreAlbum.text.toString()
+        } else {
+            nombreAlbum = idAlbums.get(spinAlbum.selectedItemPosition)
+        }
+
+        if (llGenero.visibility == 0){
+            //genero = txtGenero.text.toString()
+        } else {
+            genero = idGeneros.get(spinGenero.selectedItemPosition)
+        }
+
+        //if(nombreCancion.equals("") or nombreAutor.equals("") or nombreAlbum.equals("") or genero.equals("")){
+        if(nombreCancion.equals("")){
+            Toast.makeText(activity, "Campos vacios", Toast.LENGTH_SHORT).show()
+        } else {
+            if(archivoCancion == null){
+                Toast.makeText(activity, "Selecciona un archivo", Toast.LENGTH_SHORT).show()
+            } else {
+                var solicitud = Solicitud(activity)
+                val jsonObject = JSONObject()
+                jsonObject.put("Nombre_cancion", nombreCancion)
+                jsonObject.put("AlbumId", nombreAutor)
+                jsonObject.put("ArtistaId", nombreAlbum)
+                jsonObject.put("GeneroId", genero)
+                jsonObject.put("cancion64", archivo64)
+                jsonObject.put("ruta", "")
+                solicitud.solicitudPost("/cancion/crear", jsonObject, this)
+            }
         }
     }
 
@@ -143,6 +161,7 @@ class SubirCancionesActivity : Fragment(), AdapterView.OnItemClickListener, Resu
         lstFiles.adapter = adaptador
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
         var archivo:File = File(rutaArchivos[p2])
 
@@ -150,33 +169,75 @@ class SubirCancionesActivity : Fragment(), AdapterView.OnItemClickListener, Resu
             Toast.makeText(activity, archivo.name, Toast.LENGTH_SHORT).show()
             //archivosSeleccionados.add(File(archivo.absolutePath))
             //cargarListaSelec(archivo)
-            archivoCancion = archivo
+            if(archivo.extension.equals("mp3")){
+                archivoCancion = archivo
+
+                //encode b64--------------------------------
+                val bytesFile = archivo.readBytes()
+                archivo64 = Base64.getEncoder().encodeToString(bytesFile)
+                //var soli = Solicitud(activity)
+                //soli.solicitudGet("/cancion/archivoCancion/" + archivo64, this)
+                //-------------------------------------------
+
+                //txtNombreCancion.setText(archivo.name)
+                Toast.makeText(activity, "archivoSeleccionado: " + archivo.name, Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(activity, "Selecciona un archivo mp3", Toast.LENGTH_SHORT).show()
+            }
+
         } else {
             verDir(rutaArchivos[p2])
         }
     }
 
     fun Cargar_spinner(){
-        var autores: Array<String> = arrayOf("autor1", "autor2")
-        var albums: Array<String> = arrayOf("album1", "album2")
-        var generos: Array<String> = arrayOf("genero1", "genero2")
-
-        var adapterAutor = activity?.applicationContext?.let { ArrayAdapter<String>(it, R.layout.spinner_item, autores) }
-        spinAutores.adapter = adapterAutor
-
-        var adapterAlbum = activity?.applicationContext?.let { ArrayAdapter<String>(it, R.layout.spinner_item, albums) }
-        spinAlbum.adapter = adapterAlbum
-
-        var adapterGenero = activity?.applicationContext?.let { ArrayAdapter<String>(it, R.layout.spinner_item, generos) }
-        spinGenero.adapter = adapterGenero
+        val solicitud = Solicitud(activity)
+        solicitud.solicitudArrayGet("/artista", this)
+        solicitud.solicitudArrayGet("/album", this)
+        solicitud.solicitudArrayGet("/genero", this)
     }
 
     override fun getResult(respuesta: JSONObject?) {
-
+        if(respuesta != null){
+            if(respuesta.has("id")){
+                Toast.makeText(activity,"Canción Subida al servidor",Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     override fun getArrayResult(respuesta: JSONArray?) {
-        
+        if(respuesta != null){
+            if(respuesta.getJSONObject(0).has("nombre_artista")){
+                var count = 0
+                while (count < respuesta.length()){
+                    idAutores.add(respuesta.getJSONObject(count).getInt("id"))
+                    count++
+                }
+                var autores = Array(respuesta.length(), { indice -> respuesta.getJSONObject(indice).getString("nombre_artista")})
+                var adapterAutor = activity?.applicationContext?.let { ArrayAdapter<String>(it, R.layout.spinner_item, autores) }
+                spinAutores.adapter = adapterAutor
+            }
+            if(respuesta.getJSONObject(0).has("nombre_album")){
+                var count = 0
+                while (count < respuesta.length()){
+                    idAlbums.add(respuesta.getJSONObject(count).getInt("id"))
+                    count++
+                }
+                var albums = Array(respuesta.length(), { indice -> respuesta.getJSONObject(indice).getString("nombre_album")})
+                var adapterAlbum = activity?.applicationContext?.let { ArrayAdapter<String>(it, R.layout.spinner_item, albums) }
+                spinAlbum.adapter = adapterAlbum
+            }
+            if(respuesta.getJSONObject(0).has("nombre_genero")){
+                var count = 0
+                while (count < respuesta.length()){
+                    idGeneros.add(respuesta.getJSONObject(count).getInt("id"))
+                    count++
+                }
+                var generos = Array(respuesta.length(), { indice -> respuesta.getJSONObject(indice).getString("nombre_genero")})
+                var adapterGenero = activity?.applicationContext?.let { ArrayAdapter<String>(it, R.layout.spinner_item, generos) }
+                spinGenero.adapter = adapterGenero
+            }
+        }
     }
 }
 

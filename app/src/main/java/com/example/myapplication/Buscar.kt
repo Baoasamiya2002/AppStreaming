@@ -67,7 +67,7 @@ class Buscar : Fragment() {
     private fun resultadosListasReproduccion() {
         listaListaReproduccion?.setVisibility(View.INVISIBLE)
 
-        val list : List<Cancion> = emptyList()
+        val list : ArrayList<Cancion> = ArrayList()
 
         val adapter = activity?.let { Cancion_Adapter(it, list, activity!!.layoutInflater) }
 
@@ -79,7 +79,7 @@ class Buscar : Fragment() {
     private fun resultadosArtistas() {
         listaArtista?.setVisibility(View.INVISIBLE)
 
-        val list : List<Cancion> = emptyList()
+        val list : ArrayList<Cancion> = ArrayList()
 
         val adapter = activity?.let { Cancion_Adapter(it, list, activity!!.layoutInflater) }
 
@@ -91,10 +91,10 @@ class Buscar : Fragment() {
     private fun resultadosAlbumes() {
         listaAlbum?.setVisibility(View.INVISIBLE)
 
-        val cancion1 = Cancion("Walbum1", "autor1", "album1", "1",R.drawable.live_streaming,0)
-        val cancion2 = Cancion("Walbum12", "autor1", "album1", "1",R.drawable.live_streaming,0)
+       // val cancion1 = Cancion("Walbum1", "autor1", "album1", "1",R.drawable.live_streaming,0)
+        //val cancion2 = Cancion("Walbum12", "autor1", "album1", "1",R.drawable.live_streaming,0)
 
-        val list = listOf(cancion1, cancion2)
+        val list : ArrayList<Cancion> = ArrayList()
 
         val adapter = activity?.let { Cancion_Adapter(it, list, activity!!.layoutInflater) }
 
@@ -106,13 +106,13 @@ class Buscar : Fragment() {
     private fun resultadosCanciones() {
         listaCancion?.setVisibility(View.INVISIBLE)
 
-        val cancion1 = Cancion("We Together","autor1", "album1", "1", R.drawable.live_streaming,0)
-        val cancion2 = Cancion("Wravity", "autor1", "album1", "1", R.drawable.live_streaming,0)
-        val cancion3 = Cancion("WONEY TALK", "autor1", "album1", "1", R.drawable.live_streaming,0)
-        val cancion4 = Cancion("Wou&I", "autor1", "album1", "1", R.drawable.live_streaming,0)
-        val cancion5 = Cancion("Wind Me?", "autor1", "album1", "1",R.drawable.live_streaming,0)
+        //val cancion1 = Cancion("We Together","autor1", "album1", "1", R.drawable.live_streaming,0)
+        //val cancion2 = Cancion("Wravity", "autor1", "album1", "1", R.drawable.live_streaming,0)
+        //val cancion3 = Cancion("WONEY TALK", "autor1", "album1", "1", R.drawable.live_streaming,0)
+        //val cancion4 = Cancion("Wou&I", "autor1", "album1", "1", R.drawable.live_streaming,0)
+        //val cancion5 = Cancion("Wind Me?", "autor1", "album1", "1",R.drawable.live_streaming,0)
 
-        val list = listOf(cancion1, cancion2, cancion3, cancion4, cancion5)
+        val list : ArrayList<Cancion> = ArrayList()
 
         val adapter = activity?.let { Cancion_Adapter(it, list, activity!!.layoutInflater) }
 

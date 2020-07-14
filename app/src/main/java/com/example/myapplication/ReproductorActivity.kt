@@ -1,17 +1,27 @@
 package com.example.myapplication
 
 import android.media.MediaPlayer
-import androidx.appcompat.app.AppCompatActivity
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import android.widget.MediaController
 import android.widget.SeekBar
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_reproductor.*
+import org.json.JSONArray
+import org.json.JSONObject
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.io.IOException
+import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
 
-class ReproductorActivity : AppCompatActivity(), View.OnClickListener, SeekBar.OnSeekBarChangeListener {
+class ReproductorActivity : AppCompatActivity(), View.OnClickListener, SeekBar.OnSeekBarChangeListener, ResultadoListener {
 
     var flagPP = false
 
@@ -56,7 +66,8 @@ class ReproductorActivity : AppCompatActivity(), View.OnClickListener, SeekBar.O
 
 
     //COLA DEL REPRODUCTOR
-    var colaReproduccion:ArrayList<Int> = ArrayList()        // val colaReproduccion = intArrayOf(R.raw.song1, R.raw.song2, R.raw.song3)
+    //var colaReproduccion:ArrayList<Int> = ArrayList()        // val colaReproduccion = intArrayOf(R.raw.song1, R.raw.song2, R.raw.song3)
+    var colaReproduccion:ArrayList<Int> = ArrayList()
     var colaNombres:ArrayList<String> = ArrayList()              //val nombres = arrayListOf<String>("cancion1", "cancion2", "cancion3")
     var colaAlbunes:ArrayList<String> = ArrayList()
     var colaImagenes:ArrayList<Int> = ArrayList()
@@ -97,7 +108,7 @@ class ReproductorActivity : AppCompatActivity(), View.OnClickListener, SeekBar.O
             Toast.makeText(applicationContext,"No hay canciones en la cola", Toast.LENGTH_SHORT).show()
         } else {
             cargarColas()
-            audioStart(posCola)
+            //audioStart(posCola)
             flagPP = true
         }
 
@@ -106,12 +117,17 @@ class ReproductorActivity : AppCompatActivity(), View.OnClickListener, SeekBar.O
     fun cargarColas(){
         var x = 0
         while (x < cancionesCola.size){
-            colaReproduccion.add(cancionesCola[x].song)
+            pedirCancion(cancionesCola[x].id)
             colaNombres.add(cancionesCola[x].nombreCancion)
             colaAlbunes.add(cancionesCola[x].album)
             colaImagenes.add(cancionesCola[x].imagen)
             x++
         }
+    }
+
+    fun pedirCancion(id: Int){
+        val solicitud = Solicitud(this)
+        solicitud.solicitudGet("/cancion/byId/" + id, this)
     }
 
     fun milliToString(ms : Int):String{
@@ -122,6 +138,7 @@ class ReproductorActivity : AppCompatActivity(), View.OnClickListener, SeekBar.O
     }
 
     fun audioStart(pos : Int){
+        //colaReproduccion = intArrayOf(R.raw.song1, R.raw.song2, R.raw.song3)
         mediaPlayer = MediaPlayer.create(this, colaReproduccion[pos])
         seekSong.max = mediaPlayer.duration
         txtMaxTime.setText(milliToString(seekSong.max))
@@ -177,4 +194,63 @@ class ReproductorActivity : AppCompatActivity(), View.OnClickListener, SeekBar.O
         }
 
     }
+
+    fun PlayAudio(base64EncodedString: String) {
+        try {
+            println("ya esta aqui")
+            val url = "data:audio/mp3;base64,$base64EncodedString"
+            mediaPlayer = MediaPlayer()
+            mediaPlayer.setDataSource(url)
+            mediaPlayer.prepare()
+            mediaPlayer.start()
+        } catch (ex: Exception) {
+            print(ex.message)
+        }
+    }
+
+    private fun playMp3(mp3SoundByteArray: ByteArray) {
+        try {
+            mediaPlayer = MediaPlayer()
+            // create temp file that will hold byte array
+            val tempMp3: File = File.createTempFile("kurchina", "mp3", cacheDir)
+            tempMp3.deleteOnExit()
+            val fos = FileOutputStream(tempMp3)
+            fos.write(mp3SoundByteArray)
+            fos.close()
+
+            // resetting mediaplayer instance to evade problems
+            mediaPlayer.reset()
+
+            // In case you run into issues with threading consider new instance like:
+            // MediaPlayer mediaPlayer = new MediaPlayer();
+
+            // Tried passing path directly, but kept getting
+            // "Prepare failed.: status=0x1"
+            // so using file descriptor instead
+            val fis = FileInputStream(tempMp3)
+            mediaPlayer.setDataSource(fis.getFD())
+            mediaPlayer.prepare()
+            mediaPlayer.start()
+        } catch (ex: IOException) {
+            val s: String = ex.toString()
+            ex.printStackTrace()
+        }
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun getResult(respuesta: JSONObject?) {
+        if(respuesta != null){
+            val cancionByteArray = Base64.getDecoder().decode(respuesta.getString("cancion64"))
+            println(respuesta.getString("cancion64"))
+            println(cancionByteArray)
+            //PlayAudio(respuesta.getString("cancion64"))
+            playMp3(cancionByteArray)
+        }
+    }
+
+    override fun getArrayResult(respuesta: JSONArray?) {
+
+    }
 }
+

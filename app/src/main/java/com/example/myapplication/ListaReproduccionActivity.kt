@@ -3,23 +3,33 @@ package com.example.myapplication
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.size
 import kotlinx.android.synthetic.main.activity_lista_reproduccion.*
 import org.json.JSONArray
 import org.json.JSONObject
 
 class ListaReproduccionActivity : AppCompatActivity(), ResultadoListener {
 
-    lateinit var listaReproduccion:ListaReproduccion
-    //var listaReproduccion:ListaReproduccion = ListaReproduccion(5, "Lista Ed", R.drawable.image_logo_background)
+    //lateinit var listaReproduccion:ListaReproduccion
+    var listaReproduccion:ListaReproduccion = ListaReproduccion(6, "Lista Ed", R.drawable.image_logo_background)
     var listaRep:ArrayList<Cancion> = ArrayList()
+    var tipoList: Int = 0
+
+    //variables donde se guardan los datos de la api
+    var listaCanciones: ArrayList<Cancion> = ArrayList()
+    var albums: ArrayList<Album> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lista_reproduccion)
 
-        listaReproduccion = intent.getSerializableExtra("listaReproduccion") as ListaReproduccion
+        //listaReproduccion = intent.getSerializableExtra("listaReproduccion") as ListaReproduccion
+        //tipoList = intent.getIntExtra("tipoList", 0)
+        //
         txtNombreListaRep.text = listaReproduccion.nombreLista
         imgListaRep.setImageResource(listaReproduccion.imagenLista)
+
+        //getAlbums()
         getCanciones()
 
         btnReproducir.setOnClickListener{
@@ -30,10 +40,7 @@ class ListaReproduccionActivity : AppCompatActivity(), ResultadoListener {
     fun getCanciones(){
         val solicitud = Solicitud(this)
 
-        solicitud.solicitudGet("/lista_reproduccion/listaReproducion/" + listaReproduccion.idLista.toString(), this)
-
-
-
+        solicitud.solicitudArrayGet("/cancionlista_reproduccion/byId/" + listaReproduccion.idLista.toString(), this)
 
         /*
         val cancion1 = Cancion("Cancion1", "Album1", R.mipmap.ic_launcher_round, R.raw.song1)
@@ -71,21 +78,62 @@ class ListaReproduccionActivity : AppCompatActivity(), ResultadoListener {
         startActivity(intent)
     }
 
+    fun getAlbums(){
+        val solicitud = Solicitud(this)
+        solicitud.solicitudArrayGet("/album", this)
+    }
+
     override fun getResult(respuesta: JSONObject?) {
 
     }
 
     override fun getArrayResult(respuesta: JSONArray?) {
         if(respuesta != null){
-            val listaCanciones: ArrayList<Cancion> = ArrayList()
-            var cont = 0
-            while (cont < respuesta.length()){
-                var cancion:Cancion = respuesta[cont] as Cancion
-                listaCanciones.add(cancion)
+            if(respuesta.getJSONObject(0).has("lista_reproduccionId")){
+                var cont = 0
+                while (cont < respuesta.length()) {
+                    var json: JSONObject = respuesta[cont] as JSONObject
+                    var cancion: Cancion = Cancion(
+                        json.getJSONObject("cancion").getInt("id"),
+                        json.getJSONObject("cancion").getString("nombre_cancion"),
+                        json.getJSONObject("cancion").getString("artistaId"),
+                        json.getJSONObject("cancion").getString("albumId"),
+                        json.getJSONObject("cancion").getString("generoId"), 1, ""
+                    )
+
+
+                    listaCanciones.add(cancion)
+                    cont++
+                }
+                getAlbums()
             }
-            listaRep = listaCanciones
-            val adapter = Cancion_Adapter(this, listaCanciones, this.layoutInflater)
-            listCanciones.adapter = adapter
+            if(respuesta.getJSONObject(0).has("nombre_album")){
+                var cont = 0
+                while (cont < respuesta.length()){
+                    var json: JSONObject = respuesta[cont] as JSONObject
+                    var album: Album = Album(json.getInt("id"), json.getString("nombre_album"), json.getInt("lanzamiento"), json.getString("discografica"))
+                    albums.add(album)
+                    cont++
+
+                    var cont2 = 0
+                    while (cont2 < albums.size) {
+                        var cont3 = 0
+                        while (cont3 < listaCanciones.size){
+                            if (albums[cont2].id.toString() == listaCanciones[cont3].album) {
+                                listaCanciones[cont3].album = albums[cont2].nombreAlbum
+                            }
+                            cont3++
+                        }
+                        cont2++
+                    }
+
+                }
+
+
+                listaRep = listaCanciones
+                val adapter = Cancion_Adapter(this, listaCanciones, this.layoutInflater)
+                listCanciones.adapter = adapter
+            }
         }
     }
 }

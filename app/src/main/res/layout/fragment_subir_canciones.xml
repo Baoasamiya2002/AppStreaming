@@ -34,6 +34,15 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1">
 
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Artista"
+                    app:layout_constraintBottom_toTopOf="@+id/spinAutores"
+                    app:layout_constraintEnd_toEndOf="@+id/spinAutores"
+                    app:layout_constraintStart_toStartOf="@+id/spinAutores" />
+
                 <Spinner
                     android:id="@+id/spinAutores"
                     android:layout_width="0dp"
@@ -70,6 +79,15 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1">
 
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Album"
+                    app:layout_constraintBottom_toTopOf="@+id/spinAlbum"
+                    app:layout_constraintEnd_toEndOf="@+id/spinAlbum"
+                    app:layout_constraintStart_toStartOf="@+id/spinAlbum" />
+
                 <Spinner
                     android:id="@+id/spinAlbum"
                     android:layout_width="0dp"
@@ -104,6 +122,15 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Genero"
+                    app:layout_constraintBottom_toTopOf="@+id/spinGenero"
+                    app:layout_constraintEnd_toEndOf="@+id/spinGenero"
+                    app:layout_constraintStart_toStartOf="@+id/spinGenero" />
 
                 <Spinner
                     android:id="@+id/spinGenero"
